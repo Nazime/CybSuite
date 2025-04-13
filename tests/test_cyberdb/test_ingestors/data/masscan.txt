@@ -1,0 +1,5 @@
+Discovered open port 443/tcp on 10.0.0.1
+Discovered open port 80/tcp on 10.0.0.1
+Discovered open port 53/tcp on 10.0.0.1
+Discovered open port 53/udp on 10.0.0.1
+Discovered open port 21/tcp on 10.0.0.2

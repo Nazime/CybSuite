@@ -1,0 +1,21 @@
+tags: windows_review
+fields:
+  host:
+    type: str
+    in_filter_query: true
+    indexed: true
+  user:
+    type: str
+    in_filter_query: true
+    indexed: true
+  pid:
+    type: str
+    default: null
+  cmd:
+    type: str
+    in_filter_query: true
+    indexed: true
+  args:
+    type: str
+    in_filter_query: true
+    indexed: true

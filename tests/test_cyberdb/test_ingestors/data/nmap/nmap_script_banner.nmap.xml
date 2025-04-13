@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Thu Jun  8 16:56:48 2023 as: nmap -n -T5 -&#45;script=banner -Pn -p 22 -oX tcp_banner.nmap.xml 10.10.10.10 -->
+<nmaprun scanner="nmap" args="nmap -n -T5 -&#45;script=banner -Pn -p 22 -oX tcp_banner.nmap.xml 10.10.10.10" start="1686243408" startstr="Thu Jun  8 16:56:48 2023" version="7.80" xmloutputversion="1.04">
+<scaninfo type="syn" protocol="tcp" numservices="1" services="22"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1686243410" endtime="1686243410"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="10.10.10.10" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="57"/><service name="ssh" method="table" conf="3"/><script id="banner" output="SSH-2.0-SSH_2.0"/></port>
+</ports>
+<times srtt="10863" rttvar="10863" to="54315"/>
+</host>
+<runstats><finished time="1686243410" timestr="Thu Jun  8 16:56:50 2023" elapsed="2.03" summary="Nmap done at Thu Jun  8 16:56:50 2023; 1 IP address (1 host up) scanned in 2.03 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

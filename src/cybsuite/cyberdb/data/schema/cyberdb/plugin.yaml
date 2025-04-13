@@ -1,0 +1,12 @@
+description: Plugin
+fields:
+  plugin_manager:
+    type: plugin_manager
+    repr: true
+    in_filter_query: true
+  name:
+    type: str
+    indexed: true
+    in_filter_query: true
+  control_definitions:
+    type: set[control_definition]

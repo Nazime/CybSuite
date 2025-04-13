@@ -1,0 +1,78 @@
+description: Template for a specific control.
+tags: knowledgebase
+extra:
+  web_menu: knowledgebase
+fields:
+  name:
+    type: str
+    unique: true
+    indexed: true
+    repr: true
+    max_length: 200
+    in_filter_query: true
+    examples:
+      - web:sql_injection
+      - web:xss
+      - web:csrf
+      - linux:readable_shadow_file
+  control:
+    type: str
+    description: The control to do
+    default: null
+    max_length: 200
+  control_details:
+    type: str
+    description: Details about how to do the control
+    default: null
+  severity:
+    description: Default severity for the definition. The severity could
+      vary in occurrences depending on the context.
+    type: str
+    indexed: true
+    default: 'undefined'
+    choices: [ 'undefined','info', 'low', 'medium', 'high', 'critical' ]
+  impact:
+    type: str
+    default: null
+    choices: [ 'info', 'low', 'medium', 'high', 'critical' ]
+    hidden_in_list: true
+  probability:
+    type: str
+    default: null
+    choices: [ 'info', 'low', 'medium', 'high', 'critical' ]
+    hidden_in_list: true
+  scope:
+    type: str
+    indexed: true
+    default: null
+    choices:
+      - test
+      - code
+      - org
+      - conf
+      - arch
+  group:
+    type: str
+    default: null
+    max_length: 200
+  compliances:
+    type: set[compliance]
+    default: null
+  tags:
+    type: set[tag]
+    default: null
+  atomic:
+    description: Is this item atomic or not, to see if it can be used in an automated tool
+    type: bool
+    default: null
+  references:
+    type: str
+    default: null
+  recommendation_difficulty:
+    type: str
+    default: null
+    choices:
+      - easy
+      - standard
+      - difficult
+    hidden_in_list: true

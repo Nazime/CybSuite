@@ -1,0 +1,176 @@
+:root {
+    /* Status colors */
+    --status-ok-color: #28a745;
+    --status-ko-color: #dc3545;
+    --status-not-applicable-color: #6c757d;
+    --status-not-started-color: #ffc107;
+    --status-in-progress-color: #17a2b8;
+    --status-manual-color: #6f42c1;
+
+    /* Severity colors */
+    --severity-info-color: #17a2b8;
+    --severity-low-color: #28a745;
+    --severity-medium-color: #ffc107;
+    --severity-high-color: #fd7e14;
+    --severity-critical-color: #dc3545;
+    --severity-unknown-color: #6c757d;
+
+    /* Confidence colors */
+    --confidence-certain-color: #00bcd4;
+    --confidence-firm-color: #2196f3;
+    --confidence-tentative-color: #9c27b0;
+    --confidence-manual-color: #ffffff;
+    --confidence-true-positive-color: #4caf50;
+    --confidence-false-positive-color: #f44336;
+}
+
+body {
+    padding-top: 60px; /* Add padding for fixed navbar */
+}
+
+.section {
+    padding: 20px 0;
+    display: none; /* Hide all sections by default */
+}
+
+.section.active {
+    display: block; /* Show active section */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+/* Status styles */
+.status-ok {
+    color: var(--status-ok-color);
+    font-weight: bold;
+}
+
+.status-ko {
+    color: var(--status-ko-color);
+    font-weight: bold;
+}
+
+.status-not-applicable {
+    color: var(--status-not-applicable-color);
+    font-weight: bold;
+}
+
+.status-not-started {
+    color: var(--status-not-started-color);
+    font-weight: bold;
+}
+
+.status-in-progress {
+    color: var(--status-in-progress-color);
+    font-weight: bold;
+}
+
+.status-manual {
+    color: var(--status-manual-color);
+    font-weight: bold;
+}
+
+/* Severity styles */
+.severity-info {
+    color: var(--severity-info-color);
+    font-weight: bold;
+}
+
+.severity-low {
+    color: var(--severity-low-color);
+    font-weight: bold;
+}
+
+.severity-medium {
+    color: var(--severity-medium-color);
+    font-weight: bold;
+}
+
+.severity-high {
+    color: var(--severity-high-color);
+    font-weight: bold;
+}
+
+.severity-critical {
+    color: var(--severity-critical-color);
+    font-weight: bold;
+}
+
+.severity-unknown {
+    color: var(--severity-unknown-color);
+    font-weight: bold;
+}
+
+/* Confidence styles */
+.confidence-certain {
+    color: var(--confidence-certain-color);
+    font-weight: bold;
+}
+
+.confidence-firm {
+    color: var(--confidence-firm-color);
+    font-weight: bold;
+}
+
+.confidence-tentative {
+    color: var(--confidence-tentative-color);
+    font-weight: bold;
+}
+
+.confidence-manual {
+    color: var(--confidence-manual-color);
+    font-weight: bold;
+}
+
+.confidence-true-positive {
+    color: var(--confidence-true-positive-color);
+    font-weight: bold;
+}
+
+.confidence-false-positive {
+    color: var(--confidence-false-positive-color);
+    font-weight: bold;
+}
+
+/* Summary cards */
+.summary-card {
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.summary-card .card-body {
+    padding: 20px;
+}
+
+.summary-number {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+/* Clickable rows */
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.clickable-row:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.clickable-row td {
+    /* user-select: none; removed */
+}

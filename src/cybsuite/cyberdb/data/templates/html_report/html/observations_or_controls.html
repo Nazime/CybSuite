@@ -1,0 +1,122 @@
+{# Unified template for both Controls and Observations #}
+<section id="{{ section_id }}" class="section">
+    <h1 class="mb-4">{{ section_title }}</h1>
+
+    {# Overview Table Section #}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <button class="btn btn-sm btn-outline-secondary me-3" type="button" data-bs-toggle="collapse" data-bs-target="#{{ section_id }}Overview" aria-expanded="true" aria-controls="{{ section_id }}Overview">
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <h5 class="card-title mb-0 flex-grow-1">{{ section_title }} Overview</h5>
+                </div>
+                <div class="collapse show" id="{{ section_id }}Overview">
+                    <div class="card-body">
+                        <table class="table table-bordered display" id="{{ section_id }}-overview">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Severity</th>
+                                    <th>Confidence</th>
+                                    {% if section_id == 'controls' %}
+                                        <th>Status</th>
+                                        <th>Total Occurrences</th>
+                                        <th>OK</th>
+                                        <th>KO</th>
+                                    {% else %}
+                                        <th>Total Occurrences</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr class="clickable-row" onclick="window.location.href='#{{ section_id }}-{{ loop.index }}'">
+                                    <td>{{ item.name }}</td>
+                                    <td>
+                                        <span class="badge severity-{{ item.max_severity }}">{{ item.max_severity }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge confidence-{{ item.confidence }}">{{ item.confidence }}</span>
+                                    </td>
+                                    {% if section_id == 'controls' %}
+                                        <td>
+                                            <span class="badge status-{{ item.status }}">{{ item.status }}</span>
+                                        </td>
+                                        <td>{{ item.occurrences|length }}</td>
+                                        <td>{{ item.total_status_ok }}</td>
+                                        <td>{{ item.total_status_ko }}</td>
+                                    {% else %}
+                                        <td>{{ item.occurrences|length }}</td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Detailed Items Section #}
+    {% for item in items %}
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <button class="btn btn-sm btn-outline-secondary me-3" type="button" data-bs-toggle="collapse" data-bs-target="#{{ section_id }}-{{ loop.index }}" aria-expanded="true" aria-controls="{{ section_id }}-{{ loop.index }}">
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                {% if section_id == 'observations' %}
+                    <h5 class="card-title mb-0 flex-grow-1">
+                        {{ item.name }}
+                        <span class="badge severity-{{ item.max_severity }}">{{ item.max_severity }}</span>
+                    </h5>
+                {% else %}
+                    <h5 class="card-title mb-0 flex-grow-1" id="control-{{ loop.index }}">
+                        {{ item.name }}
+                        <span class="badge severity-{{ item.max_severity }}">{{ item.max_severity }}</span>
+                        <span class="badge status-{{ item.status }}">{{ item.status }}</span>
+                        <span class="badge confidence-{{ item.confidence }}">{{ item.confidence }}</span>
+                    </h5>
+                {% endif %}
+            </div>
+            <div class="card-body collapse show" id="{{ section_id }}-{{ loop.index }}">
+                <table class="table table-bordered display" id="{{ section_id }}-occurrences-{{ loop.index }}">
+                    <thead>
+                        <tr>
+                            <th>Severity</th>
+                            <th>Confidence</th>
+                            {% if section_id == 'controls' %}
+                                <th>Status</th>
+                            {% endif %}
+                            {% for key in item.all_keys %}
+                                <th>{{ key }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for occurrence in item.occurrences %}
+                        <tr>
+                            <td>
+                                <span class="badge severity-{{ occurrence.severity }}">{{ occurrence.severity }}</span>
+                            </td>
+                            <td>
+                                <span class="badge confidence-{{ occurrence.confidence }}">{{ occurrence.confidence }}</span>
+                            </td>
+                            {% if section_id == 'controls' %}
+                                <td>
+                                    <span class="badge status-{{ occurrence.status }}">{{ occurrence.status }}</span>
+                                </td>
+                            {% endif %}
+                            {% for key in item.all_keys %}
+                                <td>{{ occurrence.details.get(key, '') }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endfor %}
+</section>

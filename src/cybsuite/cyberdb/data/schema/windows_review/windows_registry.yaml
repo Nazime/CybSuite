@@ -1,0 +1,17 @@
+tags: windows_review
+fields:
+  host:
+    type: str
+    in_filter_query: true
+    indexed: true
+    default: null
+  path:
+    type: str
+    in_filter_query: true
+    indexed: true
+  key:
+    type: str
+    in_filter_query: true
+    indexed: true
+  value:
+    type: dict  # TODO: should be json!

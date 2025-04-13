@@ -1,0 +1,15 @@
+description: Tags
+pretty_id_fields: "name"
+order: 10
+tags: knowledgebase
+fields:
+  name:
+    type: str
+    in_filter_query: true
+    unique: true
+    repr: true
+    max_length: 200
+  description:
+    type: str
+    description: Description of the object
+    default: null

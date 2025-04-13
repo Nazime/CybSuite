@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Tue Jun  6 13:45:18 2023 as: nmap -n -Pn -sV -p 5900 -oX /home/user/scan.nmap.xml 10.24.200.130 -->
+<nmaprun scanner="nmap" args="nmap -n -Pn -sV -p 5900 -oX /home/user/scan.nmap.xml 10.10.10.10" start="1686059118" startstr="Tue Jun  6 13:45:18 2023" version="7.80" xmloutputversion="1.04">
+<scaninfo type="syn" protocol="tcp" numservices="1" services="5900"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1686059119" endtime="1686059120"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="10.10.10.10" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="5900"><state state="open" reason="syn-ack" reason_ttl="58"/><service name="vnc" product="VNC" extrainfo="protocol 3.8" method="probed" conf="10"/></port>
+</ports>
+<times srtt="20064" rttvar="20064" to="100320"/>
+</host>
+<runstats><finished time="1686059121" timestr="Tue Jun  6 13:45:21 2023" elapsed="3.34" summary="Nmap done at Tue Jun  6 13:45:21 2023; 1 IP address (1 host up) scanned in 3.34 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

@@ -1,0 +1,35 @@
+description: Compliance represent a list of control definitions
+tags: knowledgebase
+extra:
+  web_menu: knowledgebase
+fields:
+  name:
+    type: str
+    unique: true
+    repr: true
+    max_length: 200
+    in_filter_query: true
+  title:
+    type: str
+    default: null
+    max_length: 200
+  description:
+    type: str
+    description: Description of the control
+    default: null
+  provider:
+    type: str
+    description: Which enterprise created this compliance
+    default: null
+    max_length: 200
+    examples:
+      - cis
+      - anssi
+      - nist
+  version:
+    type: str
+    default: null
+    max_length: 200
+  date:
+    type: date
+    default: null

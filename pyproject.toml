@@ -1,0 +1,59 @@
+[project]
+name= "cybsuite"
+version = "0.0.1"  # change it in const also
+description = "CybSuite"
+readme="README.md"
+requires-python = ">=3.7"
+license = {file = "LICENSE"}
+
+
+authors = [
+  {name = "Nazime LAKEHAL",  email = "nazime.lkh@gmail.com" }
+]
+
+
+# FIXME: check dependencies later
+dependencies = [
+    "koalak>=0.4.1",
+    "requests",
+    # cyberdb
+    "django",
+    "psycopg2-binary",
+    # Windows
+    "python-dateutil",
+    # reports
+    "jinja2",
+    # All
+    "rich",
+    # "devtools",
+]
+
+
+[project.optional-dependencies] # Optional
+docs = ["mkdocs", "mkdocs-material", "mkdocs-plugin-progress", "mkdocs-tooltips", "mkdocs-minify-plugin", "mkdocs-git-revision-date-localized-plugin", 'mkdocs-glightbox', "mkdocs-awesome-pages-plugin"]
+tests = [
+        "coverage",
+        "pytest>=4.3.0",  # 4.3.0 dropped last use of `convert`
+
+    ]
+dev = ["cybsuite", "cybsuite[tests]"]
+
+
+[project.scripts]
+cybs-review="cybsuite.review.__main__:main"
+cybsuite-review="cybsuite.review.__main__:main"
+cybs-db="cybsuite.cyberdb.__main__:main"
+cybsuite-db="cybsuite.cyberdb.__main__:main"
+cybs-workspace="cybsuite.workspace.__main__:main"
+cybsuite-workspace="cybsuite.workspace.__main__:main"
+
+[tool.setuptools.package-data]
+"cybsuite.cyberdb" = ["data/**"]
+"cybsuite.review" = ["data/**"]
+
+[build-system]
+requires = [
+    "setuptools >= 61.0.0",
+    "wheel >= 0.30.0",
+]
+build-backend = 'setuptools.build_meta'

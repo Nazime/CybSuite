@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Wed Jun  7 15:59:08 2023 as: nmap -T5 -n -Pn -sV -p 443 -oX nmap.xml 10.10.10.10 -->
+<nmaprun scanner="nmap" args="nmap -T5 -n -Pn -sV -p 443 -oX tcp_sv.nmap.xml 10.10.10.10" start="1686153548" startstr="Wed Jun  7 15:59:08 2023" version="7.80" xmloutputversion="1.04">
+<scaninfo type="syn" protocol="tcp" numservices="1" services="443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1686153548" endtime="1686153567"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="10.10.10.10" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="59"/><service name="https" tunnel="ssl" method="table" conf="3"/></port>
+</ports>
+<times srtt="3860" rttvar="5000" to="50000"/>
+</host>
+<runstats><finished time="1686153567" timestr="Wed Jun  7 15:59:27 2023" elapsed="18.59" summary="Nmap done at Wed Jun  7 15:59:27 2023; 1 IP address (1 host up) scanned in 18.59 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

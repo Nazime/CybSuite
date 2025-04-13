@@ -1,0 +1,15 @@
+description: Category
+order: 11
+tags: knowledgebase
+fields:
+  name:
+    type: str
+    unique: true
+    indexed: true
+    repr: true
+    max_length: 200
+    in_filter_query: true
+  description:
+    type: str
+    description: Description of the object
+    default: null

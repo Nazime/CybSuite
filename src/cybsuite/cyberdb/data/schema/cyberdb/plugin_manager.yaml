@@ -1,0 +1,6 @@
+description: Plugin Manager
+fields:
+  name:
+    type: str
+    in_filter_query: true
+    indexed: true

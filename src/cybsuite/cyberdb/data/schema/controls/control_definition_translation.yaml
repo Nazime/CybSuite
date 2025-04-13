@@ -1,0 +1,36 @@
+description: Template for a specific control.
+tags: knowledgebase
+extra:
+  web_menu: knowledgebase
+fields:
+  control_definition:
+    type: control_definition
+    repr: true
+    in_filter_query: true
+  lang:
+    type: str
+    indexed: true
+    in_filter_query: true
+    max_length: 10
+    examples: ['fr', 'en']
+    repr: true
+  title:
+    type: str
+    default: null
+    max_length: 200
+  description:
+    type: str
+    description: Description of the control
+    default: null
+  risk:
+    type: str
+    description: Risk affecting the control
+    default: null
+  recommendation:
+    type: str
+    description: Recommendation for this control
+    default: null
+  proof_comments:
+    type: str
+    default: null
+    hidden_in_list: true

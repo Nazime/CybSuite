@@ -1,0 +1,20 @@
+description: Represents a single run of a CLI command or function. Each execution of tools like "cybs-review" generates a new entry to track the run details and timing
+fields:
+  tool:
+    type: str
+    default: null
+  start_time:
+    type: datetime
+    default: null
+  end_time:
+    type: datetime
+    default: null
+  status:
+    type: str
+    default: null
+    choices:
+      - created
+      - finished
+      - error
+      - running
+      - cancelled

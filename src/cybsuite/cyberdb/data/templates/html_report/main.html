@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CybSuite Report</title>
+    <!-- Bootstrap CSS -->
+    <style>{% include 'css/bootstrap.min.css'|safe %}</style>
+    <!-- Bootstrap Icons -->
+    <style>
+        @font-face {
+            font-family: "bootstrap-icons";
+            src: url("data:font/woff2;charset=utf-8;base64,{{ 'font/bootstrap-icons.woff2'|base64_file }}") format("woff2");
+        }
+        {% include 'css/bootstrap-icons.min.css'|safe %}
+    </style>
+    <!-- DataTables CSS -->
+    <style>{% include 'css/dataTables.dataTables.css'|safe %}</style>
+    <!-- Custom CSS -->
+    <style>{% include 'css/styles.css'|safe %}</style>
+</head>
+<body>
+    {% include 'html/navbar.html' %}
+
+    <div class="container-fluid">
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="btn-group">
+                    <button class="btn btn-outline-secondary btn-sm" onclick="expandAll()">
+                        <i class="bi bi-chevron-down"></i> Expand All
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="collapseAll()">
+                        <i class="bi bi-chevron-up"></i> Collapse All
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% include 'html/summary.html' %}
+        {% include 'html/controls.html' %}
+        {% include 'html/observations.html' %}
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script>{% include 'js/jquery.min.js'|safe %}</script>
+    <script>{% include 'js/bootstrap.bundle.min.js'|safe %}</script>
+    <script>{% include 'js/dataTables.js'|safe %}</script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTables
+            $('#controls-table').DataTable();
+            $('table.display').DataTable();
+
+            // Function to show a section
+            function showSection(sectionId) {
+                $('.section').removeClass('active');
+                $(`#${sectionId}`).addClass('active');
+                // Update URL hash without triggering scroll
+                history.pushState(null, null, `#${sectionId}`);
+            }
+
+            // Navigation handling
+            $('.nav-link').click(function(e) {
+                e.preventDefault();
+                const section = $(this).data('section');
+                showSection(section);
+            });
+
+            // Handle hash changes
+            function handleHashChange() {
+                const hash = window.location.hash.substring(1) || 'summary';
+                showSection(hash);
+            }
+
+            // Handle initial hash
+            handleHashChange();
+
+            // Handle hash changes when using browser back/forward
+            $(window).on('hashchange', handleHashChange);
+
+            // Handle clickable rows
+            $('.clickable-row').click(function(e) {
+                // Don't trigger if user is selecting text
+                if (window.getSelection().toString().length > 0) {
+                    return;
+                }
+                e.preventDefault();
+                const targetId = $(this).attr('onclick').match(/'#([^']+)'/)[1];
+                // Extract section name (control/controls or observation/observations)
+                const section = targetId.split('-')[0] + 's'; // Add 's' to match section IDs
+                showSection(section);
+                // Scroll to the target element
+                $('html, body').animate({
+                    scrollTop: $(`#${targetId}`).offset().top - 80 // Adjust for navbar height
+                }, 500);
+            });
+        });
+
+        // Function to expand all collapsible sections
+        function expandAll() {
+            $('.collapse').collapse('show');
+            $('.bi-chevron-up').removeClass('bi-chevron-up').addClass('bi-chevron-down');
+        }
+
+        // Function to collapse all collapsible sections
+        function collapseAll() {
+            $('.collapse').collapse('hide');
+            $('.bi-chevron-down').removeClass('bi-chevron-down').addClass('bi-chevron-up');
+        }
+
+        // Update chevron icons when sections are toggled
+        $('.collapse').on('show.bs.collapse', function () {
+            $(this).prev().find('.bi').removeClass('bi-chevron-up').addClass('bi-chevron-down');
+        });
+
+        $('.collapse').on('hide.bs.collapse', function () {
+            $(this).prev().find('.bi').removeClass('bi-chevron-down').addClass('bi-chevron-up');
+        });
+    </script>
+</body>
+</html>

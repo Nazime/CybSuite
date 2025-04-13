@@ -1,0 +1,51 @@
+description: Control
+extra:
+  web_menu: controls_reports
+fields:
+  control_definition:
+    type: control_definition
+    repr: true
+    in_filter_query: true
+  status:
+    type: str
+    indexed: true
+    default: not_started
+    choices:
+      - ok
+      - ko
+      - not_applicable
+      - not_started
+      - in_progress
+      - manual
+  details:
+    type: dict
+    repr: true
+    in_filter_query: true
+    indexed: true
+  severity:
+    type: str
+    default: null
+    choices: [ 'undefined','info', 'low', 'medium', 'high', 'critical' ]
+  confidence:
+    description: Level of confidence for this control to be real or false positive.
+    type: str
+    default: null
+    choices:
+      - true_positive
+      - certain
+      - firm
+      - tentative
+      - manual
+      - false_positive
+  justification:
+    type: str
+    default: null
+    description: Justify why and how this control occurred.
+    examples:
+      - Identified in file /etc/shadow
+      - Identified pattern in HTML response
+      - Version is known to have bad CVE
+  latest_run:
+    type: run
+    default: null
+    description: 'Latest run for this control. Save this information to be able to request controls by run object. Which is useful when generating reports of single CLI run (ex: cybs-review)'

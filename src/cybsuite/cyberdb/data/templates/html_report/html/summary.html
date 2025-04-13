@@ -1,0 +1,156 @@
+{#
+    Executive Summary Section
+    ------------------------
+    This section provides a high-level overview of the security assessment results.
+    It includes:
+    1. Key metrics cards showing total controls, failed controls, critical issues, and high severity issues
+    2. Two detailed tables showing the breakdown of controls and failed controls by severity level
+#}
+<section id="summary" class="section active">
+    <h1 class="mb-4">Executive Summary</h1>
+
+    {#
+        Key Metrics Cards
+        -----------------
+        Four cards showing the most important metrics at a glance:
+        - Total number of controls
+        - Number of failed controls
+        - Number of critical issues
+        - Number of high severity issues
+    #}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card summary-card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Total Controls</h5>
+                    <div class="summary-number">{{ summary.total_control_definitions }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card summary-card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Observations</h5>
+                    <div class="summary-number text-danger">
+                        {{ summary.total_observations_definitions }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card summary-card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Critical Observations</h5>
+                    <div class="summary-number text-danger">
+                        {{ summary.observations_definitions_by_severity.critical }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card summary-card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">High Observations</h5>
+                    <div class="summary-number text-warning">
+                        {{ summary.observations_definitions_by_severity.high }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#
+        Detailed Severity Breakdown Tables
+        ---------------------------------
+        Two tables showing the complete breakdown of controls and observations by severity level.
+        This provides a more detailed view of the security assessment results.
+    #}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <button class="btn btn-sm btn-outline-secondary me-3" type="button" data-bs-toggle="collapse" data-bs-target="#severityBreakdown" aria-expanded="true" aria-controls="severityBreakdown">
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <h5 class="card-title mb-0 flex-grow-1">Severity Breakdown</h5>
+                </div>
+                <div class="collapse show" id="severityBreakdown">
+                    <div class="card-body">
+                        <div class="row">
+                            {#
+                                Observations by Severity Table
+                                ---------------------------------
+                                Shows the distribution of observations across different severity levels.
+                                This helps identify the most critical issues that need attention.
+                            #}
+                            <div class="col-md-6">
+                                <h6 class="mb-3">Observations by Severity</h6>
+                                <table class="table">
+                                    <tr>
+                                        <td><span class="badge severity-critical">Critical</span></td>
+                                        <td>{{ summary.observations_definitions_by_severity.critical }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge severity-high">High</span></td>
+                                        <td>{{ summary.observations_definitions_by_severity.high }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge severity-medium">Medium</span></td>
+                                        <td>{{ summary.observations_definitions_by_severity.medium }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge severity-low">Low</span></td>
+                                        <td>{{ summary.observations_definitions_by_severity.low }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge severity-info">Info</span></td>
+                                        <td>{{ summary.observations_definitions_by_severity.info }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge severity-unknown">Unknown</span></td>
+                                        <td>{{ summary.observations_definitions_by_severity.unknown }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            {#
+                                Controls by Severity Table
+                                --------------------------
+                                Shows the distribution of all controls across different severity levels.
+                                This helps understand the overall risk profile of the assessment.
+                            #}
+                            <div class="col-md-6">
+                                <h6 class="mb-3">Controls by Severity</h6>
+                                <table class="table">
+                                    <tr>
+                                        <td><span class="badge severity-critical">Critical</span></td>
+                                        <td>{{ summary.controls_definitions_by_severity.critical }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge severity-high">High</span></td>
+                                        <td>{{ summary.controls_definitions_by_severity.high }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge severity-medium">Medium</span></td>
+                                        <td>{{ summary.controls_definitions_by_severity.medium }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge severity-low">Low</span></td>
+                                        <td>{{ summary.controls_definitions_by_severity.low }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge severity-info">Info</span></td>
+                                        <td>{{ summary.controls_definitions_by_severity.info }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge severity-unknown">Unknown</span></td>
+                                        <td>{{ summary.controls_definitions_by_severity.unknown }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,13 @@
+tags: windows_review
+fields:
+  host:
+    type: str
+    in_filter_query: true
+    indexed: true
+  software:
+    type: str
+    in_filter_query: true
+    indexed: true
+  version:
+    type: str
+    default: null

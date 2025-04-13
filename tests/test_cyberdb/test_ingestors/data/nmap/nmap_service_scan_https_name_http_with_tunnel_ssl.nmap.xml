@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Wed Jun  7 15:57:17 2023 as: nmap -T5 -n -Pn -sV -p 443 -oX tcp_sv.nmap.xml 10.10.10.10 -->
+<nmaprun scanner="nmap" args="nmap -T5 -n -Pn -sV -p 443 -oX tcp_sv.nmap.xml 10.10.10.10" start="1686153437" startstr="Wed Jun  7 15:57:17 2023" version="7.80" xmloutputversion="1.04">
+<scaninfo type="syn" protocol="tcp" numservices="1" services="443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1686153438" endtime="1686153451"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.10.10.10" addrtype="ipv4"/>
+<address addr="00:50:56:BE:B9:2A" addrtype="mac" vendor="VMware"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="http" product="Apache httpd" tunnel="ssl" method="probed" conf="10"><cpe>cpe:/a:apache:http_server</cpe></service></port>
+</ports>
+<times srtt="233" rttvar="3774" to="50000"/>
+</host>
+<runstats><finished time="1686153451" timestr="Wed Jun  7 15:57:31 2023" elapsed="14.81" summary="Nmap done at Wed Jun  7 15:57:31 2023; 1 IP address (1 host up) scanned in 14.81 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Wed Jun  7 15:57:37 2023 as: nmap -T5 -n -Pn -sV -p 443 -oX tcp_sv.nmap.xml 10.10.10.10 -->
+<nmaprun scanner="nmap" args="nmap -T5 -n -Pn -sV -p 443 -oX tcp_sv.nmap.xml 10.10.10.10" start="1686153457" startstr="Wed Jun  7 15:57:37 2023" version="7.80" xmloutputversion="1.04">
+<scaninfo type="syn" protocol="tcp" numservices="1" services="443"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1686153458" endtime="1686153475"><status state="up" reason="arp-response" reason_ttl="0"/>
+<address addr="10.10.10.10" addrtype="ipv4"/>
+<address addr="30:9C:23:06:A7:45" addrtype="mac" vendor="Micro-star Intl"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="https" product="BarracudaHTTP 4.0" servicefp="SF-Port443-TCP:V=7.80%T=SSL%I=7%D=6/7%Time=6480A903%P=x86_64-pc-linux-gnu%r(Help,133,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20BarracudaHTTP\x204\.0\r\nDate:\x20Wed,\x2007\x20Jun\x202023\x2015:57:55\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x20150\r\nConnection:\x20close\r\n\r\n&lt;html&gt;\r\n&lt;head&gt;&lt;title&gt;400\x20Bad\x20Request&lt;/title&gt;&lt;/head&gt;\r\n&lt;body&gt;\r\n&lt;center&gt;&lt;h1&gt;400\x20Bad\x20Request&lt;/h1&gt;&lt;/center&gt;\r\n&lt;hr&gt;&lt;center&gt;nginx&lt;/center&gt;\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n&quot;)%r(TerminalServerCookie,133,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20BarracudaHTTP\x204\.0\r\nDate:\x20Wed,\x2007\x20Jun\x202023\x2015:57:55\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x20150\r\nConnection:\x20close\r\n\r\n&lt;html&gt;\r\n&lt;head&gt;&lt;title&gt;400\x20Bad\x20Request&lt;/title&gt;&lt;/head&gt;\r\n&lt;body&gt;\r\n&lt;center&gt;&lt;h1&gt;400\x20Bad\x20Request&lt;/h1&gt;&lt;/center&gt;\r\n&lt;hr&gt;&lt;center&gt;nginx&lt;/center&gt;\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n&quot;)%r(Kerberos,133,&quot;HTTP/1\.1\x20400\x20Bad\x20Request\r\nServer:\x20BarracudaHTTP\x204\.0\r\nDate:\x20Wed,\x2007\x20Jun\x202023\x2015:57:55\x20GMT\r\nContent-Type:\x20text/html\r\nContent-Length:\x20150\r\nConnection:\x20close\r\n\r\n&lt;html&gt;\r\n&lt;head&gt;&lt;title&gt;400\x20Bad\x20Request&lt;/title&gt;&lt;/head&gt;\r\n&lt;body&gt;\r\n&lt;center&gt;&lt;h1&gt;400\x20Bad\x20Request&lt;/h1&gt;&lt;/center&gt;\r\n&lt;hr&gt;&lt;center&gt;nginx&lt;/center&gt;\r\n&lt;/body&gt;\r\n&lt;/html&gt;\r\n&quot;);" tunnel="ssl" method="probed" conf="10"/></port>
+</ports>
+<times srtt="227" rttvar="3762" to="50000"/>
+</host>
+<runstats><finished time="1686153475" timestr="Wed Jun  7 15:57:55 2023" elapsed="17.84" summary="Nmap done at Wed Jun  7 15:57:55 2023; 1 IP address (1 host up) scanned in 17.84 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

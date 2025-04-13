@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Tue May 23 16:43:21 2023 as: nmap -sP -oX ping.nmap.xml 8.8.8.8 -->
+<nmaprun scanner="nmap" args="nmap -sP -oX ping.nmap.xml 8.8.8.8" start="1684853001" startstr="Tue May 23 16:43:21 2023" version="7.80" xmloutputversion="1.04">
+<verbose level="0"/>
+<debugging level="0"/>
+<host><status state="up" reason="syn-ack" reason_ttl="0"/>
+<address addr="8.8.8.8" addrtype="ipv4"/>
+<hostnames>
+<hostname name="dns.google" type="PTR"/>
+</hostnames>
+<times srtt="8646" rttvar="8646" to="100000"/>
+</host>
+<runstats><finished time="1684853001" timestr="Tue May 23 16:43:21 2023" elapsed="0.01" summary="Nmap done at Tue May 23 16:43:21 2023; 1 IP address (1 host up) scanned in 0.01 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

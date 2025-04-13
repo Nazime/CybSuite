@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Wed Jun  7 18:11:02 2023 as: nmap -p 1000 -Pn -n -oX user_set_host.xml 10.10.10.10 -->
+<nmaprun scanner="nmap" args="nmap -p 1000 -Pn -n -oX user_set_host.xml 10.10.10.10" start="1686154262" startstr="Wed Jun  7 18:11:02 2023" version="7.80" xmloutputversion="1.04">
+<scaninfo type="syn" protocol="tcp" numservices="1" services="1000"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1686154262" endtime="1686154264"><status state="up" reason="user-set" reason_ttl="0"/>
+<address addr="10.10.10.10" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><port protocol="tcp" portid="1000"><state state="filtered" reason="no-response" reason_ttl="0"/><service name="cadlock" method="table" conf="3"/></port>
+</ports>
+</host>
+<runstats><finished time="1686154264" timestr="Wed Jun  7 18:11:04 2023" elapsed="2.19" summary="Nmap done at Wed Jun  7 18:11:04 2023; 1 IP address (1 host up) scanned in 2.19 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

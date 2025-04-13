@@ -1,0 +1,44 @@
+tags: windows_review
+fields:
+  user:
+    type: str
+    in_filter_query: true
+    indexed: true
+  host:
+    type: str
+    in_filter_query: true
+    indexed: true
+    default: null
+  rid:
+    type: str
+    default: null
+  sid:
+    type: str
+    default: null
+  AcctDisabled:
+    type: bool
+    default: null
+  PswdCanBeChanged:
+    type: bool
+    default: null
+  PswdLastSetTime:
+    type: str
+    default: null
+  PswdRequired:
+    type: bool
+    default: null
+  PswdExpires:
+    type: bool
+    default: null
+  PswdExpiresTime:
+    type: str
+    default: str
+  lm:
+    type: str
+    default: null
+  ntlm:
+    type: str
+    default: null
+  comment:
+    type: str
+    default: null
