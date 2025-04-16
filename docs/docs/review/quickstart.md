@@ -15,7 +15,7 @@ Next, run the script on each server. It should be executed with **administrator 
 ./extract_windows.ps1
 ```
 
-On the system where Arguard is installed, create a new workspace, in this example named `windows_audit`:
+On the system where Cybs-Review is installed, create a new workspace, in this example named `windows_audit`:
 
 ```bash
 cybs-review new windows_audit
