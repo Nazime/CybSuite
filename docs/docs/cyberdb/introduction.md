@@ -2,9 +2,9 @@
 
 ## Overview
 
-CyberDB is the core component of the CybSuite tools, responsible for managing all data. Currently, it is primarily utilized by Arguard for data management. The database is built on PostgreSQL and is designed to be extensible, allowing for easy schema extensions as needed.
+CyberDB is the core component of the CybSuite tools, responsible for managing all data. Currently, it is primarily utilized by cybs-db for data management. The database is built on PostgreSQL and is designed to be extensible, allowing for easy schema extensions as needed.
 
-CyberDB includes a CLI `cyberdb` that allows users to query and update its data efficiently.
+CyberDB includes a CLI `cybs-db` that allows users to query and update its data efficiently.
 
 ## Key Features
 
