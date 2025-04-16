@@ -2,11 +2,11 @@
 
 ## Overview
 
-Arguard is a configuration review framework designed for security assessments and privilege escalation (privesc) detection. It can audit multiple systems in a single execution. Arguard allows users to extend and customize its capabilities through a plugin system.
+Cybs-Review is a configuration review framework designed for security assessments and privilege escalation (privesc) detection. It can audit multiple systems in a single execution. Cybs-Review allows users to extend and customize its capabilities through a plugin system.
 
-Arguard operates by first extracting the configuration of the audited system using platform-specific scripts. The extracted data is then transferred for analysis, where Arguard performs post-review processing and generates reports, such as HTML reports.
+Cybs-Review operates by first extracting the configuration of the audited system using platform-specific scripts. The extracted data is then transferred for analysis, where Cybs-Review performs post-review processing and generates reports, such as HTML reports.
 
-Currently, Arguard supports Windows systems as the first implementation, with planned support for Linux, cloud environments, and services such as SQL databases, and web servers.
+Currently, Cybs-Review supports Windows systems as the first implementation, with planned support for Linux, cloud environments, and services such as SQL databases, and web servers.
 
 
 ## Key Features
