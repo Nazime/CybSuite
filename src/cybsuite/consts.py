@@ -4,10 +4,13 @@ from pathlib import Path
 
 VERSION = "0.3.6"
 LOGGER_NAME = "cybsuite"
+
 if "CYBSUITE_HOME" in os.environ:
     PATH_CYBSUITE = Path(os.environ["CYBSUITE_HOME"])
-    PATH_MISSIONS = Path(os.environ["CYBSUITE_MISSIONS"])
-    USER = "test"
+
+if "CYBSUITE_USER" in os.environ:
+    USER = os.environ["CYBSUITE_USER"]
+
 else:
     if "SUDO_USER" in os.environ:
         USER = os.environ["SUDO_USER"]
@@ -17,6 +20,7 @@ else:
         except KeyError:
             USER = os.getlogin()
 
+    # TODO: fix these conditions for consts
     if platform.system() == "Windows":
         _PATH_HOME = Path(os.path.expanduser(f"~{USER}"))
     else:
@@ -24,8 +28,6 @@ else:
 
         _PATH_HOME = Path(pwd.getpwnam(USER).pw_dir)
 
-    # TODO: remove deprecated path missions!
-    PATH_MISSIONS = _PATH_HOME / "ssmissions"
     PATH_CYBSUITE = _PATH_HOME / "cybsuite"
 
 CONF_FILE_NAME = "conf.toml"

@@ -6,5 +6,6 @@ from .base_reviewer import (
     pm_reviewers,
     pm_type_reviewers,
 )
+from .runner import ReviewManager
 
-__all__ = ["BaseReviewer", "BaseTypeReviewer", "pm_reviewers", "pm_type_reviewers"]
+__all__ = ["BaseReviewer", "BaseTypeReviewer", "pm_reviewers", "pm_type_reviewers", "ReviewManager"]
