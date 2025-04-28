@@ -1,6 +1,7 @@
 import pytest
 from cybsuite.workspace.cli.main_cli import cmd_main
 
+
 def test_cli_workspace_help_commands(capsys):
     with pytest.raises(SystemExit) as excinfo:
         cmd_main.run(["-h"])
@@ -23,9 +24,10 @@ def test_cli_workspace_help_commands(capsys):
     assert excinfo.value.code == 0
     capsys.readouterr()  # Capture and discard help output
 
+
 def test_cli_workspace_info(capsys):
     # Run the info command
     cmd_main.run(["info"])
-    
+
     # Capture the output to ensure it runs
     capsys.readouterr()

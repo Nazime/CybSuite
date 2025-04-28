@@ -1,0 +1,20 @@
+﻿[
+{
+    "ComputerName":  "WIN-ALPHA",
+    "MountPoint":  "C:",
+    "EncryptionMethod":  0,
+    "AutoUnlockEnabled":  null,
+    "AutoUnlockKeyStored":  null,
+    "MetadataVersion":  0,
+    "VolumeStatus":  0,
+    "ProtectionStatus":  0,
+    "LockStatus":  0,
+    "EncryptionPercentage":  0,
+    "WipePercentage":  0,
+    "VolumeType":  0,
+    "CapacityGB":  125.4082,
+    "KeyProtector":  [
+
+                     ]
+}
+]

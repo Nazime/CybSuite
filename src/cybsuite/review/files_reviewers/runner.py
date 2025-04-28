@@ -28,8 +28,8 @@ class ReviewManager:
 
     def __init__(
         self,
-        paths_to_review: List[str | Path],
         *,
+        cyberdb: CyberDB | None = None,
         force: bool = None,
         name: Optional[str] = None,
         category: Optional[str] = None,
@@ -39,8 +39,9 @@ class ReviewManager:
         controls: Optional[List[str]] = None,
         open_report: bool = False,
     ):
+        if cyberdb is None:
+            cyberdb = CyberDB.from_default_config()
         self.logger = get_logger()
-        self.paths_to_review = paths_to_review
         self.force = force
         self.name = name
         self.category = category
@@ -50,7 +51,9 @@ class ReviewManager:
         self.controls = controls
         self.open_report = open_report
 
-        self.cyberdb = CyberDB.from_default_config()
+        
+     
+        self.cyberdb = cyberdb
         self.scan_manager = CyberDBScanManager(cyberdb=self.cyberdb)
         self.review_type = "windows"
         self.unarchived_path = (
@@ -65,7 +68,7 @@ class ReviewManager:
         self.extraction_manager = ExtractionManager()
         self.run_object = None
 
-    def run(self):
+    def run(self, paths_to_review: List[str | Path],):
         """Run the complete review process.
 
         Global algorithm
@@ -78,6 +81,7 @@ class ReviewManager:
                 plugin.post_run()
 
         """
+        self.paths_to_review = paths_to_review
         self.logger.info("Starting review")
 
         # Initialize run object
@@ -107,6 +111,12 @@ class ReviewManager:
 
         # Generate reports
         self._generate_reports()
+
+    def review_files(self, files: List[str | Path]):
+        # Normalize files to Path
+        files = {k:Path(v) for k,v in files.items()}
+
+        
 
     # PRIVATE METHODS #
     # =============== #
