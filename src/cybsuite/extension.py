@@ -1,12 +1,29 @@
+import importlib.util
 import inspect
 from dataclasses import dataclass
 from functools import lru_cache
+from importlib import import_module
 from importlib.metadata import entry_points
+
+
+def load_from_string(path: str):
+    if ":" in path:
+        module_path, attr = path.split(":")
+        module = import_module(module_path)
+        return getattr(module, attr)
+    else:
+        return import_module(path)
+
+
+def module_exists(module_path: str) -> bool:
+    return importlib.util.find_spec(module_path) is not None
 
 
 class CybSuiteExtension:
     """Class used to extend CybSuite in other Python libraries
     Library declare"""
+
+    ENTRY_POINT_GROUP_NAME = "cybsuite.extensions"
 
     def __init__(
         self,
@@ -15,13 +32,8 @@ class CybSuiteExtension:
         cyberdb_schema: str = None,
         cyberdb_knowledgebase: str = None,
         cyberdb_cli=None,
-        extend_cli_review_function=None,
+        extend_cli_review_function: str = None,
     ):
-
-        self._validate_cli_function(
-            extend_cli_review_function, "extend_cli_review_function"
-        )
-        self._validate_cli_function(cyberdb_cli, "cyberdb_cli")
 
         self.name = name
         self.cyberdb_django_app_name = cyberdb_django_app_name
@@ -38,9 +50,21 @@ class CybSuiteExtension:
 
     @classmethod
     @lru_cache
+    def load_extend_cli_review_functions(cls):
+        functions = []
+        for extension in cls.load_extensions():
+            if extension.extend_cli_review_function is None:
+                continue
+            func = load_from_string(extension.extend_cli_review_function)
+            cls._validate_cli_function(func, "extend_cli_review_function")
+            functions.append(func)
+        return functions
+
+    @classmethod
+    @lru_cache
     def load_extensions(cls) -> list["CybSuiteExtension"]:
         extensions = []
-        for cybsuite_extension in entry_points(group="cybsuite.extensions"):
+        for cybsuite_extension in entry_points(group=cls.ENTRY_POINT_GROUP_NAME):
             extension_config = cybsuite_extension.load()
             if not isinstance(extension_config, CybSuiteExtension):
                 # TODO: improve error (name of distribution + exacte key)
@@ -50,7 +74,8 @@ class CybSuiteExtension:
             extensions.append(extension_config)
         return extensions
 
-    def _validate_cli_function(self, func, name):
+    @classmethod
+    def _validate_cli_function(cls, func, name):
         """Checks if func is a function with exactly one positional argument."""
         if func is None:
             return

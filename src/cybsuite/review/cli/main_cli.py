@@ -21,9 +21,8 @@ add_cmd_add(cmd_main)  # Add files command
 add_cmd_review(cmd_main)  # Review command
 
 # Add other CLIs from extensions
-for cybsuite_extension in CybSuiteExtension.load_extensions():
-    if cybsuite_extension.extend_cli_review_function is not None:
-        cybsuite_extension.extend_cli_review_function(cmd_main)
+for extend_function in CybSuiteExtension.load_extend_cli_review_functions():
+    extend_function(cmd_main)
 
 
 def main():
