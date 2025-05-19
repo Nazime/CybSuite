@@ -31,6 +31,8 @@ extensions = CybSuiteExtension.load_extensions()
 if not settings.configured:
     installed_apps = [SSMODELS_MODULE_NAME]
     for extension in extensions:
+        if extension.cyberdb_django_app_name is None:
+            continue
         installed_apps.append(extension.cyberdb_django_app_name)
 
     dico_settings = {

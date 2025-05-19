@@ -1,5 +1,6 @@
 from importlib.metadata import entry_points
 
+from cybsuite.extension import CybSuiteExtension
 from koalak.subcommand_parser import SubcommandParser
 
 from .cmd_add import add_cmd_add
@@ -19,11 +20,10 @@ add_cmd_list(cmd_main)  # Main list command for plugins
 add_cmd_add(cmd_main)  # Add files command
 add_cmd_review(cmd_main)  # Review command
 
-# Add other CLIs from entrypoints
-# TODO: remove deprecated entrypoints
-for entry_point in entry_points(group="cybsuite_review.cli"):
-    func_feed_cli = entry_point.load()
-    func_feed_cli(cmd_main)
+# Add other CLIs from extensions
+for cybsuite_extension in CybSuiteExtension.load_extensions():
+    if cybsuite_extension.extend_cli_review_function is not None:
+        cybsuite_extension.extend_cli_review_function(cmd_main)
 
 
 def main():
