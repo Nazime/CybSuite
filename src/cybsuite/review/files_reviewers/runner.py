@@ -19,7 +19,7 @@ from cybsuite.cyberdb import CyberDB, CyberDBScanManager, pm_reporter
 from cybsuite.review.consts import FILENAME_INFO
 from cybsuite.workspace.workspaces import get_current_workspace_path
 
-from .base_reviewer import ReviewContext, pm_reviewers, pm_type_reviewers
+from .base_reviewer import BaseReviewer, ReviewContext, pm_reviewers, pm_type_reviewers
 from .extractions import ExtractionManager
 
 
@@ -31,11 +31,11 @@ class ReviewManager:
         *,
         cyberdb: CyberDB | None = None,
         force: bool = None,
-        name: Optional[str] = None,
-        category: Optional[str] = None,
-        sub_category: Optional[str] = None,
-        tags: Optional[List[str]] = None,
-        authors: Optional[List[str]] = None,
+        plugins_names: list[str] = None,
+        plugins_category: Optional[str] = None,
+        plugins_sub_category: Optional[str] = None,
+        plugins_tags: Optional[List[str]] = None,
+        plugins_authors: Optional[List[str]] = None,
         controls: Optional[List[str]] = None,
         open_report: bool = False,
     ):
@@ -43,16 +43,14 @@ class ReviewManager:
             cyberdb = CyberDB.from_default_config()
         self.logger = get_logger()
         self.force = force
-        self.name = name
-        self.category = category
-        self.sub_category = sub_category
-        self.tags = tags
-        self.authors = authors
+        self.category = plugins_category
+        self.sub_category = plugins_sub_category
+        self.tags = plugins_tags
+        self.authors = plugins_authors
         self.controls = controls
         self.open_report = open_report
+        self.plugins_names = self._filter_plugins_names(plugins_names)
 
-        
-     
         self.cyberdb = cyberdb
         self.scan_manager = CyberDBScanManager(cyberdb=self.cyberdb)
         self.review_type = "windows"
@@ -68,7 +66,10 @@ class ReviewManager:
         self.extraction_manager = ExtractionManager()
         self.run_object = None
 
-    def run(self, paths_to_review: List[str | Path],):
+    def run(
+        self,
+        paths_to_review: List[str | Path],
+    ):
         """Run the complete review process.
 
         Global algorithm
@@ -112,14 +113,26 @@ class ReviewManager:
         # Generate reports
         self._generate_reports()
 
-    def review_files(self, files: List[str | Path]):
-        # Normalize files to Path
-        files = {k:Path(v) for k,v in files.items()}
+    def review_extracts(self, *args, **kwargs):
+        return self._run(*args, **kwargs)
 
-        
+    def review_files(self, files: List[str | Path]):
+        # Normalize files to Path
+        files = {k: Path(v) for k, v in files.items()}
+
+        for plugin_name in self.plugins_names:
+            plugin = pm_reviewers[plugin_name](self.cyberdb)
+            plugin.run(files)
+
+            plugin.post_run()
 
     # PRIVATE METHODS #
     # =============== #
+    def _filter_plugins_names(self, plugins_names):
+        if plugins_names is None:
+            return [e.name for e in pm_reviewers]
+
+        return plugins_names
 
     def _extract_files(self) -> List[Path]:
         """Extract files using the ExtractionManager."""
