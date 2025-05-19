@@ -124,10 +124,13 @@ class ControlsJsonReporter(BaseReporter):
 
         # Find occurrences with max severity
         for occurrence in occurrences:
-            current_idx = severity_choices.index(occurrence.severity)
+            severity = (
+                occurrence.severity if occurrence.severity is not None else "undefined"
+            )
+            current_idx = severity_choices.index(severity)
             max_idx = severity_choices.index(max_severity)
             if current_idx > max_idx:
-                max_severity = occurrence.severity
+                max_severity = severity
                 max_severity_occurrences = [occurrence]
             elif current_idx == max_idx:
                 max_severity_occurrences.append(occurrence)
@@ -135,10 +138,15 @@ class ControlsJsonReporter(BaseReporter):
         # Get max confidence among occurrences with max severity
         max_confidence = confidence_choices[0]  # Lowest confidence is first in choices
         for occurrence in max_severity_occurrences:
-            if confidence_choices.index(
+            confidence = (
                 occurrence.confidence
-            ) > confidence_choices.index(max_confidence):
-                max_confidence = occurrence.confidence
+                if occurrence.confidence is not None
+                else "undefined"
+            )
+            if confidence_choices.index(confidence) > confidence_choices.index(
+                max_confidence
+            ):
+                max_confidence = confidence
 
         return max_severity, max_confidence
 
