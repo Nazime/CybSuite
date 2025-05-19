@@ -4,31 +4,36 @@ from functools import lru_cache
 from importlib.metadata import entry_points
 
 
-# TODO: move this to cybsuite top module
 class CybSuiteExtension:
     """Class used to extend CybSuite in other Python libraries
     Library declare"""
 
     def __init__(
         self,
+        name: str = None,
         cyberdb_django_app_name: str = None,
         cyberdb_schema: str = None,
         cyberdb_knowledgebase: str = None,
-        cbx_review_cli=None,
         cyberdb_cli=None,
+        extend_cli_review_function=None,
     ):
 
-        self._validate_cli_function(cbx_review_cli, "cbx_review_cli")
+        self._validate_cli_function(
+            extend_cli_review_function, "extend_cli_review_function"
+        )
         self._validate_cli_function(cyberdb_cli, "cyberdb_cli")
 
+        self.name = name
         self.cyberdb_django_app_name = cyberdb_django_app_name
         self.cyberdb_schema = cyberdb_schema
         self.cyberdb_knowledgebase = cyberdb_knowledgebase
-        self.cbx_review_cli = cbx_review_cli
+        self.extend_cli_review_function = extend_cli_review_function
         self.cyberdb_cli = cyberdb_cli
 
     @property
     def cyberdb_django_app_label(self):
+        if self.cyberdb_django_app_name is None:
+            return None
         return self.cyberdb_django_app_name.split(".")[-1]
 
     @classmethod
@@ -65,3 +70,9 @@ class CybSuiteExtension:
             )
         ):
             raise TypeError(f"{name} must have exactly one positional argument")
+
+    def __str__(self):
+        return f"{self.__class__.__name__}({self.name})"
+
+    def __repr__(self):
+        return self.__str__()

@@ -154,6 +154,8 @@ class DjangoORMDatabase(AbstractDatabase):
         if app_labels is None:
             app_labels = [SSMODELS_APP_LABEL]
             for extension in CybSuiteExtension.load_extensions():
+                if extension.cyberdb_django_app_label is None:
+                    continue
                 app_labels.append(extension.cyberdb_django_app_label)
 
         call_command("makemigrations", app_labels)
@@ -164,6 +166,8 @@ class DjangoORMDatabase(AbstractDatabase):
         if app_labels is None:
             app_labels = [SSMODELS_APP_LABEL]
             for extension in CybSuiteExtension.load_extensions():
+                if extension.cyberdb_django_app_label is None:
+                    continue
                 app_labels.append(extension.cyberdb_django_app_label)
 
         for app_label in app_labels:

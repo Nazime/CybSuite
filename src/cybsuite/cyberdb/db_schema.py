@@ -31,6 +31,8 @@ cyberdb_entities_names_per_extension_schema[SSMODELS_APP_LABEL] = list(
 
 # Add 3rd party extensions
 for cybsuite_extension in CybSuiteExtension.load_extensions():
+    if cybsuite_extension.cyberdb_schema is None:
+        continue
     # Keep track of 3rd party extensions name / list of tables
     extension_schema = SchemaDescription.from_folder(
         cybsuite_extension.cyberdb_schema, update=False
@@ -40,12 +42,11 @@ for cybsuite_extension in CybSuiteExtension.load_extensions():
     ] = list(e.name for e in extension_schema)
 
     # Add 3rd party extensions to main schema
-    if cybsuite_extension.cyberdb_schema:
-        cyberdb_schema.add_entities_from_folder(
-            cybsuite_extension.cyberdb_schema,
-            update=False,
-            metadata={"django_app_label": cybsuite_extension.cyberdb_django_app_label},
-        )
+    cyberdb_schema.add_entities_from_folder(
+        cybsuite_extension.cyberdb_schema,
+        update=False,
+        metadata={"django_app_label": cybsuite_extension.cyberdb_django_app_label},
+    )
 
 
 # TODO: in koalak: fix the mess for updateing schema relations(3 methods is too much)
