@@ -15,6 +15,7 @@ from .cmd_report import add_cli_report
 from .cmd_scan import add_cli_scan
 from .cmd_schema import add_cli_schema
 from .cmdi_list import add_cli_list
+from .formats import pm_formats
 from .utils_cmd import (
     CMD_GROUP_MIGRATIONS,
     CMD_GROUP_OTHERS,
@@ -172,8 +173,8 @@ def build_command(main_command: SubcommandParser = None):
         cmd_request_entity.add_argument(
             "--format",
             help="Format of resulting query",
-            choices=["humain", "csv", "xlsx"],
-            default="human",
+            choices=[e.name for e in pm_formats],
+            default="table",
             group=group_general,
         )
         cmd_request_entity.add_argument(
@@ -227,8 +228,42 @@ def print_success(*msg):
 
 def run_request(args):
     db = CyberDB.from_default_config()
-    for e in db.request(args.entity_name):
-        print(e)
+    data = db.request(args.entity_name)
+
+    # Apply filters if specified
+    if hasattr(args, "fields") and args.fields:
+        data = data.values(*args.fields)
+    if hasattr(args, "no_fields") and args.no_fields:
+        data = data.values(
+            *[f for f in data.model._meta.fields if f.name not in args.no_fields]
+        )
+    if hasattr(args, "sort") and args.sort:
+        data = data.order_by(*args.sort)
+    if hasattr(args, "limit") and args.limit:
+        data = data[: args.limit]
+    if hasattr(args, "skip") and args.skip:
+        data = data[args.skip :]
+
+    # Apply filters
+    filters = {}
+    for field in data.model._meta.fields:
+        if hasattr(args, field.name) and getattr(args, field.name) is not None:
+            filters[field.name] = getattr(args, field.name)
+        if hasattr(args, f"no_{field.name}") and getattr(args, f"no_{field.name}"):
+            filters[f"{field.name}__not_in"] = getattr(args, f"no_{field.name}")
+    if filters:
+        data = data.filter(**filters)
+
+    # Format output
+    formatter = pm_formats[args.format]()
+    output = formatter.format(data)
+
+    # Write to file or stdout
+    if hasattr(args, "output") and args.output:
+        with open(args.output, "w") as f:
+            f.write(output)
+    else:
+        print(output)
 
 
 def run_count(args):
