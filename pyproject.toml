@@ -57,3 +57,23 @@ requires = [
     "wheel >= 0.30.0",
 ]
 build-backend = 'setuptools.build_meta'
+
+
+[tool.importlinter]
+root_package = "cybsuite"
+
+[[tool.importlinter.contracts]]
+name = "Respect layer structure"
+type = "layers"
+layers = [
+    "cybsuite.review",
+    # TODO: workspace and cyberdb not yet clear to know interdependencies
+    "cybsuite.workspace",
+    "cybsuite.cyberdb",
+    # TODO: core depends on workscpace ! not good! "cybsuite.core",
+    # Extension is kind of dataclass only
+    "cybsuite.extension",
+    # Basic consts
+    "cybsuite.utils",
+    "cybsuite.consts",
+]
