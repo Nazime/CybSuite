@@ -22,12 +22,12 @@ def add_cli_ingest(cli_main: SubcommandParser):
         choices=["all"] + list(e.name for e in pm_ingestors),
     )
 
-    subcmd.add_argument("filepath", help="file to import")
+    subcmd.add_argument("filepaths", help="files to import", nargs="+")
     subcmd.register_function(_run)
 
 
 def _run(args):
     ingestor_name = args.ingestor_name
-    filepath = args.filepath
+    filepaths = args.filepaths
     cyberdb = CyberDB.from_default_config()
-    cyberdb.ingest(ingestor_name, filepath)
+    cyberdb.ingest(ingestor_name, filepaths)

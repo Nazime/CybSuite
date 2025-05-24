@@ -13,4 +13,8 @@ class MasscanIngestor(BaseIngestor):
                 # Don't need to upsert_host, since upsert_service is doing it
                 port, protocol = port_service.split("/")
                 port = int(port)
-                self.cyberdb.feed("service", host=ip, port=port, protocol=protocol)
+                if protocol == "icmp":
+                    # ping
+                    self.cyberdb.feed('host', ip = ip)
+                else:
+                    self.cyberdb.feed("service", host=ip, port=port, protocol=protocol)

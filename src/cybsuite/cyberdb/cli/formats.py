@@ -51,6 +51,35 @@ class CSVFormat(BaseFormat):
         return output.getvalue()
 
 
+class IPFormat(BaseFormat):
+    """Format queryset as CSV string."""
+
+    name = "ip"
+
+    def format(self, queryset: Any) -> str:
+        if not queryset:
+            return ""
+
+        output = StringIO()
+        for obj in queryset:
+            output.write(obj.ip)
+            output.write('\n')
+        return output.getvalue()
+
+class IPPortFormat(BaseFormat):
+    """Format queryset as CSV string."""
+
+    name = "ipport"
+
+    def format(self, queryset: Any) -> str:
+        if not queryset:
+            return ""
+
+        output = StringIO()
+        for obj in queryset:
+            output.write(f"{obj.ip}:{obj.port}\n")
+        return output.getvalue()
+
 class JSONFormat(BaseFormat):
     """Format queryset as JSON string."""
 
