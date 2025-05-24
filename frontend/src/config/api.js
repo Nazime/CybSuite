@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
   DATA: {
     REQUEST: (tableName) => `${API_BASE_URL}/data/request/${tableName}`,
     DETAIL: (tableName, id) => `${API_BASE_URL}/data/detail/${tableName}/${id}`,
+    DELETE: (tableName, id) => `${API_BASE_URL}/data/detail/${tableName}/${id}`,
   },
   PLUGINS: {
     REPORTERS: `${API_BASE_URL}/plugins/reporters`,

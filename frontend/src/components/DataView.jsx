@@ -22,13 +22,30 @@ import {
 } from '@mui/icons-material'
 import { API_ENDPOINTS } from '../config/api'
 
+/**
+ * DataView Component
+ * Main entry point for data visualization. Shows a list of all available tables
+ * that can be accessed in the system. Provides search functionality and
+ * navigation to detailed table views.
+ */
 const DataView = () => {
+  // Navigation hook for routing
   const navigate = useNavigate()
+
+  // Component state management
+  // List of available tables
   const [tables, setTables] = useState([])
+
+  // Loading state indicator
   const [loading, setLoading] = useState(true)
+
+  // Error state storage
   const [error, setError] = useState(null)
+
+  // Search input value
   const [searchQuery, setSearchQuery] = useState('')
 
+  // Fetch available tables on component mount
   useEffect(() => {
     const fetchTables = async () => {
       try {
@@ -47,10 +64,12 @@ const DataView = () => {
     fetchTables()
   }, [])
 
+  // Filter tables based on search query
   const filteredTables = tables.filter(table =>
     table.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
+  // Loading state view
   if (loading) {
     return (
       <Box sx={{
@@ -64,6 +83,7 @@ const DataView = () => {
     )
   }
 
+  // Error state view
   if (error) {
     return (
       <Box sx={{
@@ -76,6 +96,7 @@ const DataView = () => {
     )
   }
 
+  // Main component view
   return (
     <Box sx={{
       p: 2,
@@ -86,6 +107,7 @@ const DataView = () => {
         overflow: 'hidden',
         p: { xs: 1, sm: 2 },
       }}>
+        {/* Header section with title and search */}
         <Box sx={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -97,6 +119,7 @@ const DataView = () => {
           <Typography variant="h5" component="h2">
             Available Tables
           </Typography>
+
           <TextField
             size="small"
             placeholder="Search tables..."
@@ -113,6 +136,7 @@ const DataView = () => {
           />
         </Box>
 
+        {/* Table list */}
         <TableContainer>
           <Table size="small">
             <TableHead>
@@ -121,6 +145,7 @@ const DataView = () => {
                 <TableCell align="right">Actions</TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
               {filteredTables.map((table) => (
                 <TableRow
@@ -135,6 +160,7 @@ const DataView = () => {
                       {table}
                     </Box>
                   </TableCell>
+
                   <TableCell align="right">
                     <IconButton
                       color="primary"
