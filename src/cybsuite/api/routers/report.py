@@ -1,23 +1,23 @@
-from fastapi import APIRouter, HTTPException, Depends
-from typing import List, Dict, Any
-from cybsuite.cyberdb import CyberDB, pm_reporter
+from typing import Any, Dict, List
+
 from asgiref.sync import sync_to_async
+from cybsuite.cyberdb import CyberDB, pm_reporter
+from fastapi import APIRouter, Depends, HTTPException
 
 router = APIRouter(
     prefix="/report",
     tags=["Report Operations"],
 )
 
+
 def get_db():
     """Get CyberDB instance"""
     db = CyberDB.from_default_config()
     return db
 
+
 @router.get("/{reporter_name}")
-async def generate_report(
-    reporter_name: str,
-    db: CyberDB = Depends(get_db)
-) -> Any:
+async def generate_report(reporter_name: str, db: CyberDB = Depends(get_db)) -> Any:
     """
     Generate a report using the specified reporter and return it as a downloadable file
     Args:
@@ -25,15 +25,18 @@ async def generate_report(
     Returns:
         FileResponse containing the generated report
     """
-    from fastapi.responses import FileResponse
-    from fastapi.background import BackgroundTasks
-    import tempfile
     import os
+    import tempfile
+
+    from fastapi.background import BackgroundTasks
+    from fastapi.responses import FileResponse
 
     try:
         # Create temporary file
         reporter = pm_reporter[reporter_name](db)
-        with tempfile.NamedTemporaryFile(delete=False, suffix=reporter.extension) as tmp_file:
+        with tempfile.NamedTemporaryFile(
+            delete=False, suffix=reporter.extension
+        ) as tmp_file:
             temp_path = tmp_file.name
 
         # Wrap the synchronous run method with sync_to_async
@@ -44,23 +47,23 @@ async def generate_report(
         background_tasks.add_task(os.unlink, temp_path)
 
         # Set media type based on extension
-        media_type = 'text/html' if reporter.extension == '.html' else 'application/json'
+        media_type = (
+            "text/html" if reporter.extension == ".html" else "application/json"
+        )
 
         # Return the file as a downloadable response
         return FileResponse(
             path=temp_path,
             filename=f"report_{reporter_name}{reporter.extension}",
             media_type=media_type,
-            background=background_tasks
+            background=background_tasks,
         )
 
     except KeyError:
         raise HTTPException(
-            status_code=404,
-            detail=f"Reporter '{reporter_name}' not found"
+            status_code=404, detail=f"Reporter '{reporter_name}' not found"
         )
     except Exception as e:
         raise HTTPException(
-            status_code=500,
-            detail=f"Error generating report: {str(e)}"
+            status_code=500, detail=f"Error generating report: {str(e)}"
         )

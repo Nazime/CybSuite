@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-# from models import Base
+
+# from models import Base
 # from database import engine
 from routers import router as api_router
 
@@ -10,7 +11,7 @@ from routers import router as api_router
 app = FastAPI(
     title="Host Management API",
     description="API for managing hosts and services with data ingestion capabilities",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # CORS middleware configuration
@@ -33,6 +34,6 @@ async def root():
         "endpoints": {
             "data_request": "/api/v1/data/request/<table_name>",
             "data_detail": "/api/v1/data/detail/<table_name>/<object_id>",
-            "ingest": "/api/v1/ingest/<plugin_name>"
-        }
+            "ingest": "/api/v1/ingest/<plugin_name>",
+        },
     }

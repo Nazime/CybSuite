@@ -1,17 +1,20 @@
-from fastapi import APIRouter, HTTPException, Depends, UploadFile, File
-from typing import List, Dict, Any
-from cybsuite.cyberdb import CyberDB, pm_ingestors
+from typing import Any, Dict, List
+
 from asgiref.sync import sync_to_async
+from cybsuite.cyberdb import CyberDB, pm_ingestors
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 
 router = APIRouter(
     prefix="/ingest",
     tags=["Data Ingestion"],
 )
 
+
 def get_db():
     """Get CyberDB instance"""
     db = CyberDB.from_default_config()
     return db
+
 
 @router.get("/plugins")
 async def list_ingestors() -> List[Dict[str, Any]]:
@@ -21,11 +24,10 @@ async def list_ingestors() -> List[Dict[str, Any]]:
     """
     return [{"name": plugin.name} for plugin in pm_ingestors]
 
+
 @router.post("/{ingestor_name}")
 async def ingest_data(
-    ingestor_name: str,
-    file: UploadFile = File(...),
-    db: CyberDB = Depends(get_db)
+    ingestor_name: str, file: UploadFile = File(...), db: CyberDB = Depends(get_db)
 ) -> Dict[str, Any]:
     """
     Ingest data using the specified ingestor plugin
@@ -48,18 +50,14 @@ async def ingest_data(
         return {
             "status": "success",
             "message": f"Data ingested successfully using {ingestor_name}",
-            "details": result
+            "details": result,
         }
 
     except KeyError:
         raise HTTPException(
-            status_code=404,
-            detail=f"Ingestor '{ingestor_name}' not found"
+            status_code=404, detail=f"Ingestor '{ingestor_name}' not found"
         )
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error ingesting data: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Error ingesting data: {str(e)}")
     finally:
         await file.close()

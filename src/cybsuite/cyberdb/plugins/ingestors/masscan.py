@@ -15,6 +15,6 @@ class MasscanIngestor(BaseIngestor):
                 port = int(port)
                 if protocol == "icmp":
                     # ping
-                    self.cyberdb.feed('host', ip = ip)
+                    self.cyberdb.feed("host", ip=ip)
                 else:
                     self.cyberdb.feed("service", host=ip, port=port, protocol=protocol)

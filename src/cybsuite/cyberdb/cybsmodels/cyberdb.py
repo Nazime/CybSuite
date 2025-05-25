@@ -55,7 +55,9 @@ class CyberDB(BaseCyberDB):
         """Return all domain names to that specific IP"""
         return [e["domain_name"] for e in self.request("dns", ip=ip)]
 
-    def ingest(self, toolname: str, filepaths: Union[str, Path, List[Union[str, Path]]]):
+    def ingest(
+        self, toolname: str, filepaths: Union[str, Path, List[Union[str, Path]]]
+    ):
         if isinstance(filepaths, (str, Path)):
             filepaths = [filepaths]
 

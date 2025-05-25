@@ -63,8 +63,9 @@ class IPFormat(BaseFormat):
         output = StringIO()
         for obj in queryset:
             output.write(obj.ip)
-            output.write('\n')
+            output.write("\n")
         return output.getvalue()
+
 
 class IPPortFormat(BaseFormat):
     """Format queryset as CSV string."""
@@ -79,6 +80,7 @@ class IPPortFormat(BaseFormat):
         for obj in queryset:
             output.write(f"{obj.ip}:{obj.port}\n")
         return output.getvalue()
+
 
 class JSONFormat(BaseFormat):
     """Format queryset as JSON string."""
