@@ -1,7 +1,8 @@
-from fastapi.testclient import TestClient
 from cybsuite.api.main import app
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
+
 
 def test_list_schemas_contains_host():
     """Test that the list_schemas endpoint returns a list containing 'host'"""

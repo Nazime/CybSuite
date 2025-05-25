@@ -1,7 +1,8 @@
-from fastapi.testclient import TestClient
 from cybsuite.api.main import app
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
+
 
 def test_health_check():
     """Test that the health check endpoint returns status ok"""

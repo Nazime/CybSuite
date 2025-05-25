@@ -38,6 +38,7 @@ import {
   ViewColumn as ViewColumnIcon,
   FilterAlt as FilterIcon,
   Clear as ClearIcon,
+  Visibility as VisibilityIcon,
 } from '@mui/icons-material'
 import TableSidebar from './TableSidebar'
 import { API_ENDPOINTS } from '../config/api'
@@ -213,9 +214,14 @@ const DataTable = () => {
   useEffect(() => {
     if (data.length > 0 && tableSchema && !columnsInitialized) {
       const initialVisibility = Object.keys(data[0]).reduce((acc, key) => {
-        // Check if the field exists in the schema and has hidden_in_list property
-        const fieldSchema = tableSchema.fields[key]
-        acc[key] = fieldSchema ? !fieldSchema.hidden_in_list : true
+        // Hide ID column by default and respect schema settings for other columns
+        if (key.toLowerCase() === 'id') {
+          acc[key] = false
+        } else {
+          // Check if the field exists in the schema and has hidden_in_list property
+          const fieldSchema = tableSchema.fields[key]
+          acc[key] = fieldSchema ? !fieldSchema.hidden_in_list : true
+        }
         return acc
       }, {})
       setColumnVisibility(initialVisibility)
@@ -236,9 +242,14 @@ const DataTable = () => {
     // Add any new columns that might appear in the data
     currentColumns.forEach(col => {
       if (!(col in mergedVisibility)) {
-        // Check schema for new columns
-        const fieldSchema = tableSchema?.fields[col]
-        mergedVisibility[col] = fieldSchema ? !fieldSchema.hidden_in_list : true
+        // Hide ID column by default and respect schema settings for other columns
+        if (col.toLowerCase() === 'id') {
+          mergedVisibility[col] = false
+        } else {
+          // Check schema for new columns
+          const fieldSchema = tableSchema?.fields[col]
+          mergedVisibility[col] = fieldSchema ? !fieldSchema.hidden_in_list : true
+        }
       }
     })
 
@@ -559,6 +570,14 @@ const DataTable = () => {
                       <Box sx={{ display: 'flex', gap: 0.5 }}>
                         <IconButton
                           size="small"
+                          color="info"
+                          onClick={() => navigate(`/data/request/${tableName}/${row.id}`)}
+                        >
+                          <VisibilityIcon fontSize="small" />
+                        </IconButton>
+
+                        <IconButton
+                          size="small"
                           color="primary"
                           onClick={() => navigate(`/data/request/${tableName}/${row.id}`)}
                         >
@@ -576,21 +595,30 @@ const DataTable = () => {
                     </TableCell>
 
                     {/* Data cells */}
-                    {visibleColumns.map(column => (
-                      <TableCell
-                        key={column.id}
-                        onClick={column.id === 'id' ? () => navigate(`/data/request/${tableName}/${row.id}`) : undefined}
-                        sx={column.id === 'id' ? {
-                          cursor: 'pointer',
-                          color: 'primary.main',
-                          '&:hover': {
-                            textDecoration: 'underline',
-                          },
-                        } : undefined}
-                      >
-                        {row[column.id] === null ? '-' : String(row[column.id])}
-                      </TableCell>
-                    ))}
+                    {visibleColumns.map(column => {
+                      const value = row[column.id];
+                      const isForeignKey = value && typeof value === 'object' && 'repr' in value && 'id' in value;
+
+                      const cellProps = {
+                        key: column.id,
+                        ...(isForeignKey && {
+                          onClick: () => navigate(`/data/request/${column.id}/${value.id}`),
+                          sx: {
+                            cursor: 'pointer',
+                            color: 'primary.main',
+                            '&:hover': {
+                              textDecoration: 'underline',
+                            },
+                          }
+                        })
+                      };
+
+                      return (
+                        <TableCell {...cellProps}>
+                          {value === null ? '-' : (isForeignKey ? value.repr : String(value))}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 ))}
               </TableBody>

@@ -4,7 +4,7 @@ from functools import partial, reduce
 from typing import Any, Dict, List, Optional
 
 from asgiref.sync import sync_to_async
-from cybsuite.cyberdb import CyberDB
+from cybsuite.cyberdb import CyberDB, cyberdb_schema
 from django.db.models import Q
 from fastapi import APIRouter, Depends, HTTPException, Query
 
@@ -20,9 +20,25 @@ def get_db():
     return db
 
 
-def serialize_model(item):
+def serialize_model(item, table_name):
     """Synchronously serialize a Django model instance"""
-    return {field.name: getattr(item, field.name) for field in item._meta.fields}
+    result = {}
+    table_schema = cyberdb_schema[table_name]
+
+    for field_description in table_schema:
+        value = getattr(item, field_description.name)
+        if field_description.referenced_entity is not None:
+            if field_description.is_one_to_many_field():
+                value = {
+                    "id": value.id,
+                    "repr": str(value),
+                }
+            else:
+                continue
+
+        result[field_description.name] = value
+
+    return result
 
 
 async def async_request(
@@ -82,7 +98,7 @@ async def async_request(
         # Serialize each model instance synchronously
         serialized_items = []
         for item in items:
-            serialized = await sync_to_async(serialize_model)(item)
+            serialized = await sync_to_async(serialize_model)(item, table_name)
             serialized_items.append(serialized)
 
         return serialized_items
@@ -103,7 +119,7 @@ async def async_detail(db: CyberDB, table_name: str, obj_id: int):
             )
 
         # Serialize the object synchronously
-        return await sync_to_async(serialize_model)(obj)
+        return await sync_to_async(serialize_model)(obj, table_name)
 
     except HTTPException:
         raise
@@ -143,7 +159,7 @@ async def async_feed(db: CyberDB, table_name: str, data: Dict[str, Any]):
         obj = await sync_to_async(db.feed)(table_name, **data)
 
         # Serialize the resulting object
-        return await sync_to_async(serialize_model)(obj)
+        return await sync_to_async(serialize_model)(obj, table_name)
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error feeding object: {str(e)}")

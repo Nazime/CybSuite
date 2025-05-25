@@ -13,6 +13,8 @@ import {
   Schema as SchemaIcon,
   CloudUpload as CloudUploadIcon,
   Assessment as AssessmentIcon,
+  Computer as ComputerIcon,
+  Storage as StorageIcon,
 } from '@mui/icons-material'
 import './App.css'
 import DataTable from './components/DataTable'
@@ -54,6 +56,24 @@ function App() {
                 sx={{ mr: 2 }}
               >
                 Data
+              </Button>
+              <Button
+                color="inherit"
+                component={Link}
+                to="/data/request/host"
+                startIcon={<ComputerIcon />}
+                sx={{ mr: 2 }}
+              >
+                Hosts
+              </Button>
+              <Button
+                color="inherit"
+                component={Link}
+                to="/data/request/service"
+                startIcon={<StorageIcon />}
+                sx={{ mr: 2 }}
+              >
+                Services
               </Button>
               <Button
                 color="inherit"
@@ -105,6 +125,7 @@ function App() {
               <Route path="/schema/:tableName" element={<SchemaTable />} />
               <Route path="/ingest" element={<IngestView />} />
               <Route path="/report" element={<ReportView />} />
+
             </Routes>
           </Box>
         </Box>
