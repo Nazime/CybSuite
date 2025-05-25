@@ -60,3 +60,12 @@ Query the database from your previous review run:
 ```bash
 cybs-db request windows_user --format json
 ```
+
+
+
+## Dev
+
+```bash
+uvicorn cybsuite.api.main:app --reload  --reload-dir src/cybsuite/
+
+```
