@@ -1,7 +1,8 @@
 from cybsuite.core.logger import get_logger
 from cybsuite.cyberdb import cyberdb_schema
-from cybsuite.cyberdb.cli.utils_cmd import CMD_GROUP_OTHERS
 from koalak.subcommand_parser import SubcommandParser
+
+from .utils_cmd import CMD_GROUP_OTHERS
 
 logger = get_logger()
 

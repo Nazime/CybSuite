@@ -1,11 +1,12 @@
 import itertools
 
 import koalak
-from cybsuite.cyberdb.cli.utils_cmd import CMD_GROUP_PLUGINS
 from koalak.plugin_manager.packages_distributions_utils import (
     module_to_package_distribution_name,
 )
 from koalak.subcommand_parser import SubcommandParser
+
+from .utils_cmd import CMD_GROUP_PLUGINS
 
 
 def add_cli_list(cli_main: SubcommandParser):

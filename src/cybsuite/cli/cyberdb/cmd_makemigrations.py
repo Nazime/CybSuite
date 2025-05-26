@@ -1,6 +1,6 @@
+from cybsuite.cyberdb import CyberDB
 from koalak.subcommand_parser import SubcommandParser
 
-from .. import CyberDB
 from .utils_cmd import CMD_GROUP_MIGRATIONS
 
 

@@ -1,6 +1,7 @@
 from cybsuite.cyberdb import CyberDB, pm_ingestors, pm_reporter
-from cybsuite.cyberdb.cli.utils_cmd import CMD_GROUP_PLUGINS
 from koalak.subcommand_parser import SubcommandParser
+
+from .utils_cmd import CMD_GROUP_PLUGINS
 
 
 def add_cli_report(cli_main: SubcommandParser):

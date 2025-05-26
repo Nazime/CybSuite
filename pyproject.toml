@@ -42,8 +42,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 cybs-review="cybsuite.review.__main__:main"
 cybsuite-review="cybsuite.review.__main__:main"
-cybs-db="cybsuite.cyberdb.__main__:main"
-cybsuite-db="cybsuite.cyberdb.__main__:main"
+cybs-db="cybsuite.cli.cyberdb.__main__:main"
+cybsuite-db="cybsuite.cli.cyberdb.__main__:main"
 cybs-workspace="cybsuite.workspace.__main__:main"
 cybsuite-workspace="cybsuite.workspace.__main__:main"
 
@@ -75,6 +75,7 @@ root_package = "cybsuite"
 name = "Respect layer structure"
 type = "layers"
 layers = [
+    "cybsuite.api | cybsuite.cli",
     "cybsuite.review",
     # TODO: workspace and cyberdb not yet clear to know interdependencies
     "cybsuite.workspace",
@@ -91,7 +92,6 @@ layers = [
 name = "Cyber DB"
 type = "layers"
 layers = [
-    "cybsuite.cyberdb.cli",
     "cybsuite.cyberdb.cybsmodels",
     "cybsuite.cyberdb.django_orm"
 ]
