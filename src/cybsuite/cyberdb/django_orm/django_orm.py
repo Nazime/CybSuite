@@ -1,7 +1,7 @@
 import datetime
 import json
 from pathlib import Path
-from typing import Iterable
+from typing import Any, Iterable
 
 import django.db.models
 import psycopg2
@@ -24,7 +24,7 @@ DEFAULT_FORMAT = "yaml"
 class DjangoORMBuilder(AbstractDatabaseBuilder):
     @classmethod
     def build(
-        cls, schema: SchemaDescription, *, name: str = None, django_models
+        cls, schema: SchemaDescription, *, name: str = None, get_django_models
     ) -> "DjangoORMDatabase":
         if name is None:
             name = "Database"
@@ -34,7 +34,7 @@ class DjangoORMBuilder(AbstractDatabaseBuilder):
             (DjangoORMDatabase,),
             {
                 "schema": schema,
-                "django_models": django_models,
+                "get_django_models": staticmethod(get_django_models),
             },
         )
         return django_orm_database_cls
@@ -43,7 +43,7 @@ class DjangoORMBuilder(AbstractDatabaseBuilder):
 class DjangoORMDatabase(AbstractDatabase):
     schema: SchemaDescription
     django_models: dict[str, Model]
-
+    get_django_models: Any
     _django_alias_unique_name_counter = 0
 
     DATE_FORMAT = "%m-%d-%Y"
@@ -54,6 +54,9 @@ class DjangoORMDatabase(AbstractDatabase):
         port: int = None,
         **kwargs,
     ):
+        print("In init")
+        print("get_django_models", self.get_django_models)
+        self.django_models = self.get_django_models()
         if port is None:
             port = 5432
 
