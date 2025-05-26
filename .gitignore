@@ -110,3 +110,6 @@ _BRAINSTORM/
 
 # mkdocs
 public/
+
+# VS Code
+*.code-workspace

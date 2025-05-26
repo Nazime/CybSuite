@@ -2,8 +2,8 @@ const API_BASE_URL = '/api/v1'
 
 export const API_ENDPOINTS = {
   SCHEMA: {
-    REQUEST: `${API_BASE_URL}/schema/request`,
-    DETAIL: (tableName) => `${API_BASE_URL}/schema/detail/${tableName}`,
+    REQUEST: `${API_BASE_URL}/schema/names`,
+    DETAIL: (tableName) => `${API_BASE_URL}/schema/entity/${tableName}`,
   },
   DATA: {
     REQUEST: (tableName) => `${API_BASE_URL}/data/request/${tableName}`,
