@@ -86,3 +86,12 @@ layers = [
     "cybsuite.utils",
     "cybsuite.consts",
 ]
+
+[[tool.importlinter.contracts]]
+name = "Cyber DB"
+type = "layers"
+layers = [
+    "cybsuite.cyberdb.cli",
+    "cybsuite.cyberdb.cybsmodels",
+    "cybsuite.cyberdb.django_orm"
+]

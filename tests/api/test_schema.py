@@ -10,7 +10,7 @@ def test_get_full_schema():
     assert response.status_code == 200
     schema = response.json()
     assert isinstance(schema, dict), "Response should be a dictionary"
-    names = [e['name'] for e in schema['entities']]
+    names = [e["name"] for e in schema["entities"]]
     assert "host" in names
 
 
@@ -30,7 +30,7 @@ def test_get_entity_schema():
     entity = response.json()
     assert isinstance(entity, dict), "Response should be a dictionary"
     assert "fields" in entity, "Entity should contain fields"
-    assert "hostname" in entity['fields']
+    assert "hostname" in entity["fields"]
 
 
 def test_get_entity_schema_not_found():

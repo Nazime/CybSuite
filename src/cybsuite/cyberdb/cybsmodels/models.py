@@ -28,7 +28,10 @@ extensions = CybSuiteExtension.load_extensions()
 
 # Configure Django with all apps
 # ------------------------------
-if not settings.configured:
+import os
+
+if not os.environ.get("CYBSUITE_SKIP_DJANGO_CONFIG") and not settings.configured:
+    print('------------- CONFIGURINTG ! ')
     installed_apps = [SSMODELS_MODULE_NAME]
     for extension in extensions:
         if extension.cyberdb_django_app_name is None:

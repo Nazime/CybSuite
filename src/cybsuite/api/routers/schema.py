@@ -1,6 +1,7 @@
+from typing import Any, Dict, List
+
 from cybsuite.cyberdb import cyberdb_schema
 from fastapi import APIRouter, HTTPException
-from typing import List, Dict, Any
 
 router = APIRouter(prefix="/schema", tags=["Schema"])
 
