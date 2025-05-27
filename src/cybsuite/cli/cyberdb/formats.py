@@ -62,7 +62,11 @@ class IPFormat(BaseFormat):
 
         output = StringIO()
         for obj in queryset:
-            output.write(obj.ip)
+            try:
+                ip = obj.ip
+            except:
+                ip = obj.host.ip
+            output.write(ip)
             output.write("\n")
         return output.getvalue()
 
