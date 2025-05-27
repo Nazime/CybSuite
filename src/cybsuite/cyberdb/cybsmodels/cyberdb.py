@@ -4,6 +4,7 @@ from typing import List, Union
 from cybsuite.cyberdb.db_schema import cyberdb_schema
 
 from ..bases.base_ingestor import BaseIngestor, pm_ingestors
+from ..bases.base_passive_scanner import BasePassiveScanner, pm_passive_scanners
 from ..consts import PATH_KNOWLEDGEBASE
 from .models import BaseCyberDB
 
@@ -55,6 +56,11 @@ class CyberDB(BaseCyberDB):
         """Return all domain names to that specific IP"""
         return [e["domain_name"] for e in self.request("dns", ip=ip)]
 
+    def scan(self, scanner_name):
+        scanner_cls = pm_passive_scanners[scanner_name]
+        scanner_instance = scanner_cls(self)
+        scanner_instance.run()
+
     def ingest(
         self, toolname: str, filepaths: Union[str, Path, List[Union[str, Path]]]
     ):
@@ -62,12 +68,16 @@ class CyberDB(BaseCyberDB):
             filepaths = [filepaths]
 
         if toolname == "all":
-            return self.ingest_all(filepath)
+            return self.ingest_all(filepaths)
 
         ingestor_cls = pm_ingestors[toolname]
         ingestor_instance = ingestor_cls(self)
         for filepath in filepaths:
-            ingestor_instance.run(filepath)
+            print(f'Ingesting {filepath}')
+            try:
+                ingestor_instance.run(filepath)
+            except Exception as e:
+                print(f'Error {filepath} {e}')
 
     def ingest_all(self, root_filepath):
         for e in self.iter_ingest_all(root_filepath):

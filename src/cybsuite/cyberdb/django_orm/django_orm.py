@@ -54,8 +54,6 @@ class DjangoORMDatabase(AbstractDatabase):
         port: int = None,
         **kwargs,
     ):
-        print("In init")
-        print("get_django_models", self.get_django_models)
         self.django_models = self.get_django_models()
         if port is None:
             port = 5432

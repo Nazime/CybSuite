@@ -78,9 +78,47 @@ class IPPortFormat(BaseFormat):
 
         output = StringIO()
         for obj in queryset:
-            output.write(f"{obj.ip}:{obj.port}\n")
+            output.write(f"{obj.host.ip}:{obj.port}\n")
         return output.getvalue()
 
+
+class IPPortFormat(BaseFormat):
+    """Format queryset as CSV string."""
+
+    name = "ipports_tcp"
+
+    def format(self, queryset: Any) -> str:
+        if not queryset:
+            return ""
+
+        output = StringIO()
+        for host in queryset:
+            ports = [str(e.port) for e in host.services.filter(protocol="tcp")]
+            if not ports:
+                continue
+            ports = ",".join(ports)
+            output.write(f"{host.ip}:{ports}\n")
+
+        return output.getvalue()
+
+class IPPortFormat(BaseFormat):
+    """Format queryset as CSV string."""
+
+    name = "ipports_udp"
+
+    def format(self, queryset: Any) -> str:
+        if not queryset:
+            return ""
+
+        output = StringIO()
+        for host in queryset:
+            ports = [str(e.port) for e in host.services.filter(protocol="udp")]
+            if not ports:
+                continue
+            ports = ",".join(ports)
+            output.write(f"{host.ip}:{ports}\n")
+
+        return output.getvalue()
 
 class JSONFormat(BaseFormat):
     """Format queryset as JSON string."""
