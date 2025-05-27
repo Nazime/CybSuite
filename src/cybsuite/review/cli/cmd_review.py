@@ -33,14 +33,14 @@ def add_cmd_review(main_cli: SubcommandParser):
 
 def _run(args):
     manager = ReviewManager(
-        paths_to_review=args.paths,
+        # paths_to_review=args.paths,
         force=args.force,
-        name=args.name,
-        plugins_category=args.category,
-        sub_category=args.sub_category,
-        plugins_tags=args.tags,
-        authors=args.authors,
-        controls=args.controls,
-        open_report=args.open_report,
+        plugins_names=args.name,
+        # plugins_category=args.category,
+        # sub_category=args.sub_category,
+        # plugins_tags=args.tags,
+        # authors=args.authors,
+        # controls=args.controls,
+        # open_report=args.open_report,
     )
-    manager.run()
+    manager.run(args.paths)

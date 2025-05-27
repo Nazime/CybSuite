@@ -143,7 +143,7 @@ class ReviewManager:
     def _get_reviewers(self):
         """Get and initialize the reviewers based on filters."""
         reviewers = pm_reviewers.iter(
-            name=self.name,
+            name=self.plugins_names,
             category=self.category,
             sub_category=self.sub_category,
             tags=self.tags,
