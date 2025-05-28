@@ -8,6 +8,7 @@ from cybsuite.cyberdb.config import cyberdb_config
 from koalak.subcommand_parser import SubcommandParser
 from rich.console import Console
 
+from .cmd_cleardb import add_cli_cleardb
 from .cmd_ingest import add_cli_ingest
 from .cmd_makemigrations import add_cli_makemigrations
 from .cmd_migrate import add_cli_migrate
@@ -16,6 +17,7 @@ from .cmd_scan import add_cli_scan
 from .cmd_schema import add_cli_schema
 from .cmdi_list import add_cli_list
 from .utils_cmd import (
+    CMD_GROUP_DELETE,
     CMD_GROUP_MIGRATIONS,
     CMD_GROUP_OTHERS,
     CMD_GROUP_PLUGINS,
@@ -40,14 +42,12 @@ def build_command(main_command: SubcommandParser = None):
     main_cli.add_group(name=CMD_GROUP_PLUGINS, title="Plugins & Features")
     group_database_operations = main_cli.add_group(title="Database operations")
     main_cli.add_group(name=CMD_GROUP_UTILS, title="Utils functions")
-
-    group_delete = main_cli.add_group(title="Database delete operations")
+    main_cli.add_group(name=CMD_GROUP_DELETE, title="Database delete operations")
     main_cli.add_group(
         name=CMD_GROUP_MIGRATIONS,
         title="Migrations",
         description="Mainly used for development",
     )
-
     main_cli.add_group(name=CMD_GROUP_OTHERS, title="Others")
 
     cmd_request = main_cli.add_subcommand(
@@ -72,6 +72,9 @@ def build_command(main_command: SubcommandParser = None):
     add_cli_makemigrations(main_cli)
     add_cli_migrate(main_cli)
 
+    # Group delete
+    add_cli_cleardb(main_cli)
+
     # Other
     add_cli_schema(main_cli)
 
@@ -84,13 +87,6 @@ def build_command(main_command: SubcommandParser = None):
     cmd_count = main_cli.add_subcommand("count", group=group_database_operations.name)
     cmd_count.add_argument("model_name")
     cmd_count.register_function(run_count)
-
-    main_cli.add_subcommand_from_function(
-        CyberDB.cleardb,
-        default_instance=cyberdb,
-        group=group_delete.name,
-        description="Clear all data of all models",
-    )
 
     # Imports & Exports CLIs #
     # ====================== #
