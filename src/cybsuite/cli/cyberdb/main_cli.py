@@ -58,7 +58,7 @@ def build_command(main_command: SubcommandParser = None):
 
     cmd_feed = main_cli.add_subcommand(
         "feed",
-        description="upsert (insert or update) new entry",
+        description="[Work In Progress] upsert (insert or update) new entry",
         group=group_database_operations.name,
     )
 
@@ -84,7 +84,11 @@ def build_command(main_command: SubcommandParser = None):
         group=CMD_GROUP_UTILS,
     )
 
-    cmd_count = main_cli.add_subcommand("count", group=group_database_operations.name)
+    cmd_count = main_cli.add_subcommand(
+        "count",
+        group=group_database_operations.name,
+        description="Count the number of entries in a model",
+    )
     cmd_count.add_argument("model_name")
     cmd_count.register_function(run_count)
 

@@ -1,9 +1,10 @@
 import rich
-from rich.prompt import Confirm
 from cybsuite.cyberdb import CyberDB
 from koalak.subcommand_parser import SubcommandParser
+from rich.prompt import Confirm
 
 from .utils_cmd import CMD_GROUP_DELETE
+
 
 def add_cli_cleardb(cli_main: SubcommandParser):
     cli_cleardb = cli_main.add_subcommand(
@@ -18,9 +19,13 @@ def add_cli_cleardb(cli_main: SubcommandParser):
     )
     cli_cleardb.register_function(_run)
 
+
 def _run(args):
     if not args.force:
-        if not Confirm.ask("[red]WARNING[/red]: This will delete all data in the database. Are you sure?", default=False):
+        if not Confirm.ask(
+            "[red]WARNING[/red]: This will delete all data in the database. Are you sure?",
+            default=False,
+        ):
             print("Operation cancelled.")
             return
 

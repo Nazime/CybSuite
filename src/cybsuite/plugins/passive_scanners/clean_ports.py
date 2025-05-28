@@ -23,8 +23,15 @@ class CleanPortsScanner(BasePassiveScanner):
                 #  but for now it's ok
                 host.delete()
         # TODO: fixme do not print like this ...
-        if i_removed_hosts:
-            print(f"Removed {i_removed_hosts} hosts")
 
-        print(self.cyberdb.request("service").filter(port=2000).delete())
-        print(self.cyberdb.request("service").filter(port=5060).delete())
+        self.logger.info(
+            f"Removed {i_removed_hosts} hosts having only ports 2000 or 5060"
+        )
+        nb_removed_services = (
+            self.cyberdb.request("service").filter(port=2000).delete()[0]
+        )
+        self.logger.info(f"Removed {nb_removed_services} services with port 2000")
+        nb_removed_services = (
+            self.cyberdb.request("service").filter(port=5060).delete()[0]
+        )
+        self.logger.info(f"Removed {nb_removed_services} services with port 5060")
