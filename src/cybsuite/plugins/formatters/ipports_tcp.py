@@ -8,9 +8,7 @@ class IPPortTCPFormatter(BaseFormatter):
     """Format queryset as CSV string."""
 
     name = "ipports_tcp"
-    metadata = Metadata(
-        description="Format to ip:port on TCP protocol"
-    )
+    metadata = Metadata(description="Format to ip:port on TCP protocol")
 
     def format(self, queryset: Any) -> str:
         if not queryset:

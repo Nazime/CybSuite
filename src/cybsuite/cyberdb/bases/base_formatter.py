@@ -1,13 +1,10 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from cybsuite.consts import PATH_CYBSUITE
 from koalak.plugin_manager import Plugin, PluginManager, abstract
-from typing import Any
-
 
 if TYPE_CHECKING:
     from cybsuite.cyberdb import CyberDB
-
 
 
 # FIXME: redo path once koalak.framework are ended

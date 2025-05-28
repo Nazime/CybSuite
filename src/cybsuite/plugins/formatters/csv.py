@@ -1,16 +1,15 @@
-from io import StringIO
 import csv
+from io import StringIO
 from typing import Any
 
 from cybsuite.cyberdb import BaseFormatter, Metadata
+
 
 class CSVFormat(BaseFormatter):
     """Format queryset as CSV string"""
 
     name = "csv"
-    metadata = Metadata(
-        description="Format to CSV"
-    )
+    metadata = Metadata(description="Format to CSV")
 
     def format(self, queryset: Any) -> str:
         if not queryset:

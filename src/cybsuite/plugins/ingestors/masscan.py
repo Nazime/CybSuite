@@ -4,9 +4,7 @@ from cybsuite.cyberdb import BaseIngestor, Metadata
 class MasscanIngestor(BaseIngestor):
     name = "masscan"
     extension = "masscan.txt"
-    metadata = Metadata(
-        description="Ingest masscan output file"
-    )
+    metadata = Metadata(description="Ingest masscan output file")
 
     def do_run(self, filepath):
         with open(filepath) as f:

@@ -2,18 +2,16 @@ from datetime import datetime
 from io import StringIO
 from typing import Any
 
+from cybsuite.cyberdb import BaseFormatter, Metadata
 from rich.console import Console
 from rich.table import Table
 
-from cybsuite.cyberdb import BaseFormatter, Metadata
 
 class TableFormat(BaseFormatter):
     """Format queryset as a rich table for human reading."""
 
     name = "table"
-    metadata = Metadata(
-        description="Format to a rich table for human reading"
-    )
+    metadata = Metadata(description="Format to a rich table for human reading")
 
     def _format_value(self, value: Any) -> str:
         """Format a value for human reading.

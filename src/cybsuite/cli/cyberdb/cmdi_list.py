@@ -26,10 +26,10 @@ def _run(args):
     )
 
     COLOR_MAP = {
-        'ingestors': 'green',
-        'reporters': 'blue',
-        'passive_scanners': 'magenta',
-        'formatters': 'yellow'
+        "ingestors": "green",
+        "reporters": "blue",
+        "passive_scanners": "magenta",
+        "formatters": "yellow",
     }
 
     rows = []

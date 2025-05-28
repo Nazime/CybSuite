@@ -31,4 +31,3 @@ class IpportIngestor(BaseIngestor):
                     self.cyberdb.feed("service", host=ip, port=port, protocol=protocol)
                 else:
                     raise ValueError(f"Too many parts in line: {line}")
-

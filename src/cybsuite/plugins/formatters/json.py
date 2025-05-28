@@ -1,17 +1,16 @@
+import json
+from datetime import datetime
 from io import StringIO
 from typing import Any
 
 from cybsuite.cyberdb import BaseFormatter, Metadata
-from datetime import datetime
-import json
+
 
 class JSONFormat(BaseFormatter):
     """Format queryset as JSON string."""
 
     name = "json"
-    metadata = Metadata(
-        description="Format to JSON"
-    )
+    metadata = Metadata(description="Format to JSON")
 
     def _serialize_value(self, value: Any) -> Any:
         """Serialize a value to JSON-compatible format.

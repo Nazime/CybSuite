@@ -8,9 +8,7 @@ class IPPortUDPFormatter(BaseFormatter):
     """Format queryset as CSV string."""
 
     name = "ipports_udp"
-    metadata = Metadata(
-        description="Format to ip:port on UDP protocol"
-    )
+    metadata = Metadata(description="Format to ip:port on UDP protocol")
 
     def format(self, queryset: Any) -> str:
         if not queryset:

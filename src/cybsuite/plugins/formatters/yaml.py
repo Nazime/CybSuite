@@ -2,16 +2,15 @@ from datetime import datetime
 from io import StringIO
 from typing import Any
 
-from cybsuite.cyberdb import BaseFormatter, Metadata
 import yaml
+from cybsuite.cyberdb import BaseFormatter, Metadata
+
 
 class YAMLFormat(BaseFormatter):
     """Format queryset as YAML string."""
 
     name = "yaml"
-    metadata = Metadata(
-        description="Format to YAML"
-    )
+    metadata = Metadata(description="Format to YAML")
 
     def _serialize_value(self, value: Any) -> Any:
         """Serialize a value to YAML-compatible format.

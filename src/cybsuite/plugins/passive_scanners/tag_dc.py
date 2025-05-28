@@ -1,6 +1,7 @@
 from cybsuite.cyberdb import BasePassiveScanner, Metadata
 
-# TODO: This class is deactivated not working for now
+
+# TODO: This class is deactivated not working for now
 class TagDC(BasePassiveScanner):
     name = "tag_dc"
     metadata = Metadata(

@@ -28,5 +28,3 @@ class CleanPortsScanner(BasePassiveScanner):
 
         print(self.cyberdb.request("service").filter(port=2000).delete())
         print(self.cyberdb.request("service").filter(port=5060).delete())
-
-

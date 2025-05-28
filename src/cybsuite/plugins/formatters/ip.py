@@ -8,9 +8,7 @@ class IPFormat(BaseFormatter):
     """Format queryset as IP string."""
 
     name = "ip"
-    metadata = Metadata(
-        description="Format to list of IPs"
-    )
+    metadata = Metadata(description="Format to list of IPs")
 
     def format(self, queryset: Any) -> str:
         if not queryset:
