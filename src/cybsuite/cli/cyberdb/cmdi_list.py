@@ -24,12 +24,21 @@ def _run(args):
     plugins = itertools.chain(
         pm_ingestors, pm_reporters, pm_passive_scanners, pm_formatters
     )
+
+    COLOR_MAP = {
+        'ingestors': 'green',
+        'reporters': 'blue',
+        'passive_scanners': 'magenta',
+        'formatters': 'yellow'
+    }
+
     rows = []
     for plugin in plugins:
-
+        plugin_type = plugin.metadata.plugin_manager.name
+        color = COLOR_MAP[plugin_type]
         rows.append(
             {
-                "type": plugin.metadata.plugin_manager.name,
+                "type": f"[{color}]{plugin_type}[/]",
                 "name": plugin.name,
                 # "category": plugin.metadata.category,
                 "description": plugin.metadata.description,

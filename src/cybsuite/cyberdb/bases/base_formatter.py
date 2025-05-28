@@ -31,5 +31,5 @@ class BaseFormatter(Plugin):
 
 
 pm_formatters = PluginManager(
-    "formats", base_plugin=BaseFormatter, entry_point="cybsuite.plugins"
+    "formatters", base_plugin=BaseFormatter, entry_point="cybsuite.plugins"
 )
