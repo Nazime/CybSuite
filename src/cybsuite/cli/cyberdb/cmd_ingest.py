@@ -5,25 +5,12 @@ import koalak
 from cybsuite.cyberdb import CyberDB, pm_ingestors
 from koalak.subcommand_parser import SubcommandParser
 
-from .utils_cmd import CMD_GROUP_PLUGINS
-
-
-def _print_ingestors_table():
-    rows = []
-    for ingestor in pm_ingestors:
-        rows.append(
-            {
-                "name": ingestor.name,
-                "extension": ingestor.extension,
-                "description": ingestor.metadata.description,
-            }
-        )
-    koalak.containers.print_table(rows)
+from .utils_cmd import CMD_GROUP_PLUGINS, print_ingestors_table
 
 
 class ListAndExit(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
-        _print_ingestors_table()
+        print_ingestors_table()
         parser.exit()
 
 
@@ -58,10 +45,6 @@ def add_cli_ingest(cli_main: SubcommandParser):
 
 
 def _run(args):
-    if args.list:
-        _print_ingestors_table()
-        return
-
     ingestor_name = args.ingestor_name
     filepaths = args.filepaths
     cyberdb = CyberDB.from_default_config()

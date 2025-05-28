@@ -1,12 +1,27 @@
+import argparse
+
+import koalak
 from cybsuite.cyberdb import CyberDB, pm_passive_scanners
 from koalak.subcommand_parser import SubcommandParser
 
-from .utils_cmd import CMD_GROUP_PLUGINS
+from .utils_cmd import CMD_GROUP_PLUGINS, print_scanners_table
+
+
+class ListAndExit(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        print_scanners_table()
+        parser.exit()
 
 
 def add_cli_scan(cli_main: SubcommandParser):
     subcmd = cli_main.add_subcommand(
         "scan", group=CMD_GROUP_PLUGINS, description="Passively scan database"
+    )
+    subcmd.add_argument(
+        "--list",
+        action=ListAndExit,
+        help="List all available scanners and exit",
+        nargs=0,
     )
     subcmd.add_argument(
         "name",

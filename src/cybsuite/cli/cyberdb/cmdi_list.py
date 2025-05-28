@@ -9,7 +9,13 @@ from cybsuite.cyberdb import (
 )
 from koalak.subcommand_parser import SubcommandParser
 
-from .utils_cmd import CMD_GROUP_PLUGINS
+from .utils_cmd import (
+    CMD_GROUP_PLUGINS,
+    print_formatters_table,
+    print_ingestors_table,
+    print_reporters_table,
+    print_scanners_table,
+)
 
 plugin_managers = {
     pm_ingestors.name: pm_ingestors,
@@ -45,30 +51,16 @@ def _run(args):
     rows = []
 
     if args.type:
-        # Detailed view for specific plugin type
-        plugins = plugin_managers[args.type]
-        for plugin in plugins:
-            plugin_info = {
-                "name": plugin.name,
-                "description": plugin.metadata.description,
-            }
 
-            # Add type-specific attributes
-            if args.type == pm_ingestors.name:
-                plugin_info[
-                    "extension"
-                ] = plugin.extension  # You'll need to add this attribute
-            elif args.type == pm_reporters.name:
-                # Add reporter-specific attributes here
-                pass
-            elif args.type == pm_passive_scanners.name:
-                # Add scanner-specific attributes here
-                pass
-            elif args.type == pm_formatters.name:
-                # Add formatter-specific attributes here
-                pass
+        if args.type == pm_ingestors.name:
+            print_ingestors_table()
+        elif args.type == pm_reporters.name:
+            print_reporters_table()
+        elif args.type == pm_passive_scanners.name:
+            print_scanners_table()
+        elif args.type == pm_formatters.name:
+            print_formatters_table()
 
-            rows.append(plugin_info)
     else:
         # Overview of all plugins
         plugins = itertools.chain(*plugin_managers.values())
