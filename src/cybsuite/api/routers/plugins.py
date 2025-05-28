@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 
-from cybsuite.cyberdb import pm_ingestors, pm_reporter
+from cybsuite.cyberdb import pm_ingestors, pm_reporters
 from fastapi import APIRouter, HTTPException
 
 router = APIRouter(
@@ -16,7 +16,7 @@ async def get_reporters() -> List[Dict[str, Any]]:
     Returns a list of reporter configurations and their metadata
     """
     # This is a placeholder - you will implement the actual logic
-    return [{"name": plugin.name} for plugin in pm_reporter]
+    return [{"name": plugin.name} for plugin in pm_reporters]
 
 
 @router.get("/ingestors")

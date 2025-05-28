@@ -14,9 +14,16 @@ def add_cli_list(cli_main: SubcommandParser):
 
 
 def _run(args):
-    from cybsuite.cyberdb import pm_ingestors, pm_reporter
+    from cybsuite.cyberdb import (
+        pm_formatters,
+        pm_ingestors,
+        pm_passive_scanners,
+        pm_reporters,
+    )
 
-    plugins = itertools.chain(pm_ingestors, pm_reporter)
+    plugins = itertools.chain(
+        pm_ingestors, pm_reporters, pm_passive_scanners, pm_formatters
+    )
     rows = []
     for plugin in plugins:
 
@@ -24,9 +31,9 @@ def _run(args):
             {
                 "type": plugin.metadata.plugin_manager.name,
                 "name": plugin.name,
-                "category": plugin.metadata.category,
+                # "category": plugin.metadata.category,
                 "description": plugin.metadata.description,
-                "authors": "\n".join(plugin.metadata.authors),
+                # "authors": "\n".join(plugin.metadata.authors),
                 # "distribution": module_to_package_distribution_name(plugin.__module__),
             }
         )

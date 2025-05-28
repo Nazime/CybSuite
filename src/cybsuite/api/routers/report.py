@@ -1,7 +1,7 @@
 from typing import Any, Dict, List
 
 from asgiref.sync import sync_to_async
-from cybsuite.cyberdb import CyberDB, pm_reporter
+from cybsuite.cyberdb import CyberDB, pm_reporters
 from fastapi import APIRouter, Depends, HTTPException
 
 router = APIRouter(
@@ -33,7 +33,7 @@ async def generate_report(reporter_name: str, db: CyberDB = Depends(get_db)) -> 
 
     try:
         # Create temporary file
-        reporter = pm_reporter[reporter_name](db)
+        reporter = pm_reporters[reporter_name](db)
         with tempfile.NamedTemporaryFile(
             delete=False, suffix=reporter.extension
         ) as tmp_file:

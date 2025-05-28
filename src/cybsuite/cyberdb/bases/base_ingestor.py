@@ -41,6 +41,11 @@ class BaseIngestor(Plugin, CyberDBScanner):
             # Return the entire string if no dot is present
             return cls.extension
 
+    @property
+    def source(self):
+        # TODO: implement source in DB
+        return self.name
+
 
 pm_ingestors = PluginManager(
     "ingestors", base_plugin=BaseIngestor, entry_point="cybsuite.plugins"

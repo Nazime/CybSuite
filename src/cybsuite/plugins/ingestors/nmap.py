@@ -1,7 +1,14 @@
 import xml.etree.ElementTree as ET
 
-from cybsuite.cyberdb import BaseIngestor
+from cybsuite.cyberdb import BaseIngestor, Metadata
+import re
+"""
+The nmap script parser is complicated since we have many informations in the XML file.
 
+Currently the script is working, but it can be improved
+"""
+
+# TODO: Must work with interupted scans
 # TODO: Licence this file
 # TODO: add tag ping in hosts? but dunno how this is written in the XML file
 # TODO: map OS name 'os_nmap_name': 'Microsoft Windows 7'
@@ -21,7 +28,7 @@ TODO = {
     "Microsoft Windows XP SP2",
 }
 
-import re
+
 
 _banner_to_service_regexes = [
     {"regex": r"^SSH", "type": "ssh"},
@@ -82,7 +89,9 @@ NMAP_OS_ACCURACY_MIN = 80  # below this percent, we don't check OS
 class NmapIngestor(BaseIngestor):
     name = "nmap"
     extension = "nmap.xml"
-    # FIXME: source
+    metadata = Metadata(
+        description="Ingest nmap XML output file"
+    )
 
     def do_run(self, filepath):
         # Parsing the xml file

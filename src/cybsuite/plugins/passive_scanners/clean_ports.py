@@ -1,8 +1,11 @@
-from cybsuite.cyberdb import BasePassiveScanner
+from cybsuite.cyberdb import BasePassiveScanner, Metadata
 
 
-class IpportIngestor(BasePassiveScanner):
+class CleanPortsScanner(BasePassiveScanner):
     name = "clean_ports"
+    metadata = Metadata(
+        description="Delete ports 2000 and 5060 which are commonly false positives, and remove hosts that only have these ports"
+    )
 
     def do_run(self):
         i_removed_hosts = 0
@@ -16,8 +19,10 @@ class IpportIngestor(BasePassiveScanner):
             if service_ports.issubset(false_positive_ports):
                 i_removed_hosts += 1
                 # print(f'Deleting host {host.ip} - only has suspicious ports {service_ports}')
+                # TODO: must also check if this host is not added by other source or ping or ...
+                #  but for now it's ok
                 host.delete()
-        # TODO: fixme
+        # TODO: fixme do not print like this ...
         if i_removed_hosts:
             print(f"Removed {i_removed_hosts} hosts")
 
@@ -25,13 +30,3 @@ class IpportIngestor(BasePassiveScanner):
         print(self.cyberdb.request("service").filter(port=5060).delete())
 
 
-class TagDC(BasePassiveScanner):
-    name = "tag_dc"
-    descriptions = "All hosts that have port 389 445 and 88 will have 'dc' tag"
-
-    def do_run(self):
-        for host in self.db.request("host", services__port=88).filter(
-            services__port=389
-        ):
-            pass
-            # add tag

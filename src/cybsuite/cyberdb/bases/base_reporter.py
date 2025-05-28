@@ -29,6 +29,6 @@ class BaseReporter(Plugin):
         pass
 
 
-pm_reporter = PluginManager(
+pm_reporters = PluginManager(
     "reporters", base_plugin=BaseReporter, entry_point="cybsuite.plugins"
 )

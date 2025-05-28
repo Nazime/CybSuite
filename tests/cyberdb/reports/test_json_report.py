@@ -1,9 +1,9 @@
 import pytest
-from cybsuite.cyberdb import pm_reporter
+from cybsuite.cyberdb import pm_reporters
 
 
 def test_json_report_empty(new_cyberdb):
-    reporter = pm_reporter["controls_json"](new_cyberdb)
+    reporter = pm_reporters["controls_json"](new_cyberdb)
     data = reporter.do_processing()
 
     # Check empty lists
@@ -52,7 +52,7 @@ def test_json_report_one_ko_control(new_cyberdb):
         },
     )
 
-    reporter = pm_reporter["controls_json"](new_cyberdb)
+    reporter = pm_reporters["controls_json"](new_cyberdb)
     data = reporter.do_processing()
 
     # Check control list has one item
@@ -156,7 +156,7 @@ def test_json_report_one_ok_control(new_cyberdb):
         },
     )
 
-    reporter = pm_reporter["controls_json"](new_cyberdb)
+    reporter = pm_reporters["controls_json"](new_cyberdb)
     data = reporter.do_processing()
 
     # Check control list has one item
@@ -318,7 +318,7 @@ def test_json_report_multiple_controls(new_cyberdb):
         },
     )
 
-    reporter = pm_reporter["controls_json"](new_cyberdb)
+    reporter = pm_reporters["controls_json"](new_cyberdb)
     data = reporter.do_processing()
 
     # Check control list has two items
@@ -476,7 +476,7 @@ def test_json_report_control_max_severity_and_confidence(new_cyberdb):
         },
     )
 
-    reporter = pm_reporter["controls_json"](new_cyberdb)
+    reporter = pm_reporters["controls_json"](new_cyberdb)
     data = reporter.do_processing()
 
     # Check control has max_severity=medium (highest severity) and confidence=firm (highest confidence)
@@ -517,7 +517,7 @@ def test_json_report_different_keys(new_cyberdb):
         },
     )
 
-    reporter = pm_reporter["controls_json"](new_cyberdb)
+    reporter = pm_reporters["controls_json"](new_cyberdb)
     data = reporter.do_processing()
 
     # Check control
@@ -560,7 +560,7 @@ def test_json_report_undefined_severity(new_cyberdb):
         },
     )
     # Just verify it runs without error
-    reporter = pm_reporter["controls_json"](new_cyberdb)
+    reporter = pm_reporters["controls_json"](new_cyberdb)
     reporter.do_processing()
 
 
@@ -595,7 +595,7 @@ def test_json_report_latest_run_filtering(new_cyberdb):
     )
 
     # Test without latest_run filter
-    reporter = pm_reporter["controls_json"](new_cyberdb)
+    reporter = pm_reporters["controls_json"](new_cyberdb)
     reporter.configure(latest_run=run)
     data = reporter.do_processing()
 

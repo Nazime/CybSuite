@@ -3,7 +3,7 @@ TODO: Many sub commands and code are not used. Will be added or removed in futur
 import sys
 
 import rich
-from cybsuite.cyberdb import CyberDB, pm_ingestors, pm_reporter
+from cybsuite.cyberdb import CyberDB, pm_formatters, pm_ingestors, pm_reporters
 from cybsuite.cyberdb.config import cyberdb_config
 from koalak.subcommand_parser import SubcommandParser
 from rich.console import Console
@@ -15,7 +15,6 @@ from .cmd_report import add_cli_report
 from .cmd_scan import add_cli_scan
 from .cmd_schema import add_cli_schema
 from .cmdi_list import add_cli_list
-from .formats import pm_formats
 from .utils_cmd import (
     CMD_GROUP_MIGRATIONS,
     CMD_GROUP_OTHERS,
@@ -173,7 +172,7 @@ def build_command(main_command: SubcommandParser = None):
         cmd_request_entity.add_argument(
             "--format",
             help="Format of resulting query",
-            choices=[e.name for e in pm_formats],
+            choices=[e.name for e in pm_formatters],
             default="table",
             group=group_general,
         )
@@ -255,7 +254,7 @@ def run_request(args):
         data = data.filter(**filters)
 
     # Format output
-    formatter = pm_formats[args.format]()
+    formatter = pm_formatters[args.format]()
     output = formatter.format(data)
 
     # Write to file or stdout

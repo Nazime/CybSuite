@@ -15,7 +15,7 @@ class HtmlReporter(BaseReporter):
     name = "html"
     metadata = Metadata(
         category="reporters",
-        description="Generate HTML report with DataTables for controls",
+        description="Generate single-page offline HTML report for controls",
     )
     extension = ".html"
 
@@ -23,9 +23,9 @@ class HtmlReporter(BaseReporter):
         self.latest_run = latest_run
 
     def run(self, output):
-        from cybsuite.cyberdb import pm_reporter
+        from cybsuite.cyberdb import pm_reporters
 
-        json_reporter = pm_reporter["controls_json"](self.cyberdb)
+        json_reporter = pm_reporters["controls_json"](self.cyberdb)
         json_reporter.configure(latest_run=self.latest_run)
         data = json_reporter.do_processing()
 
