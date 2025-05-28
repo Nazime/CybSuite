@@ -13,7 +13,6 @@ pm_home_path = PATH_CYBSUITE / "passive_scanners"
 
 
 class BasePassiveScanner(Plugin, CyberDBScanner):
-
     def __init__(self, cyberdb: "CyberDB"):
         super().__init__(
             cyberdb,

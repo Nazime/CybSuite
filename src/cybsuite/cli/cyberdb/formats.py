@@ -105,6 +105,7 @@ class IPPortFormat(BaseFormat):
 
         return output.getvalue()
 
+
 class IPPortFormat(BaseFormat):
     """Format queryset as CSV string."""
 
@@ -123,6 +124,7 @@ class IPPortFormat(BaseFormat):
             output.write(f"{host.ip}:{ports}\n")
 
         return output.getvalue()
+
 
 class JSONFormat(BaseFormat):
     """Format queryset as JSON string."""

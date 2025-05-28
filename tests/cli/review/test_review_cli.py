@@ -1,5 +1,5 @@
 import pytest
-from cybsuite.review.cli.main_cli import cmd_main
+from cybsuite.cli.review.main_cli import cmd_main
 from cybsuite.review.consts import PATH_EXTRACT_SCRIPT_WINDOWS
 
 

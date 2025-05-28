@@ -37,10 +37,10 @@ def _run(args):
         force=args.force,
         plugins_names=args.name,
         # plugins_category=args.category,
-        # sub_category=args.sub_category,
-        # plugins_tags=args.tags,
-        # authors=args.authors,
-        # controls=args.controls,
-        # open_report=args.open_report,
+        # sub_category=args.sub_category,
+        # plugins_tags=args.tags,
+        # authors=args.authors,
+        # controls=args.controls,
+        # open_report=args.open_report,
     )
     manager.run(args.paths)

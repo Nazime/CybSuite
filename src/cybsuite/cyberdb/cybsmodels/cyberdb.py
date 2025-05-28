@@ -73,11 +73,11 @@ class CyberDB(BaseCyberDB):
         ingestor_cls = pm_ingestors[toolname]
         ingestor_instance = ingestor_cls(self)
         for filepath in filepaths:
-            print(f'Ingesting {filepath}')
+            print(f"Ingesting {filepath}")
             try:
                 ingestor_instance.run(filepath)
             except Exception as e:
-                print(f'Error {filepath} {e}')
+                print(f"Error {filepath} {e}")
 
     def ingest_all(self, root_filepath):
         for e in self.iter_ingest_all(root_filepath):

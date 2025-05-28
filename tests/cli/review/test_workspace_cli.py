@@ -1,5 +1,5 @@
 import pytest
-from cybsuite.workspace.cli.main_cli import cmd_main
+from cybsuite.cli.workspace.main_cli import cmd_main
 
 
 def test_cli_workspace_help_commands(capsys):

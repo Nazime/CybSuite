@@ -1,9 +1,6 @@
 import itertools
 
 import koalak
-from koalak.plugin_manager.packages_distributions_utils import (
-    module_to_package_distribution_name,
-)
 from koalak.subcommand_parser import SubcommandParser
 
 from .utils_cmd import CMD_GROUP_PLUGINS
@@ -30,7 +27,7 @@ def _run(args):
                 "category": plugin.metadata.category,
                 "description": plugin.metadata.description,
                 "authors": "\n".join(plugin.metadata.authors),
-                "distribution": module_to_package_distribution_name(plugin.__module__),
+                # "distribution": module_to_package_distribution_name(plugin.__module__),
             }
         )
     koalak.containers.print_table(rows)

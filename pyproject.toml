@@ -40,12 +40,12 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
-cybs-review="cybsuite.review.__main__:main"
-cybsuite-review="cybsuite.review.__main__:main"
+cybs-review="cybsuite.cli.review.__main__:main"
+cybsuite-review="cybsuite.cli.review.__main__:main"
 cybs-db="cybsuite.cli.cyberdb.__main__:main"
 cybsuite-db="cybsuite.cli.cyberdb.__main__:main"
-cybs-workspace="cybsuite.workspace.__main__:main"
-cybsuite-workspace="cybsuite.workspace.__main__:main"
+cybs-workspace="cybsuite.cli.workspace.__main__:main"
+cybsuite-workspace="cybsuite.cli.workspace.__main__:main"
 
 # IMPORT LINTER CONFIGURATION #
 # =========================== #
