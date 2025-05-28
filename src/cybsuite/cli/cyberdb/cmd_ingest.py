@@ -1,8 +1,9 @@
+import argparse
+import sys
+
+import koalak
 from cybsuite.cyberdb import CyberDB, pm_ingestors
 from koalak.subcommand_parser import SubcommandParser
-import koalak
-import sys
-import argparse
 
 from .utils_cmd import CMD_GROUP_PLUGINS
 
@@ -10,11 +11,13 @@ from .utils_cmd import CMD_GROUP_PLUGINS
 def _print_ingestors_table():
     rows = []
     for ingestor in pm_ingestors:
-        rows.append({
-            "name": ingestor.name,
-            "extension": ingestor.extension,
-            "description": ingestor.metadata.description,
-        })
+        rows.append(
+            {
+                "name": ingestor.name,
+                "extension": ingestor.extension,
+                "description": ingestor.metadata.description,
+            }
+        )
     koalak.containers.print_table(rows)
 
 
