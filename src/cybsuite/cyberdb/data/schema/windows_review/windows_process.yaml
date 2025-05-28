@@ -1,21 +1,27 @@
+description: "Windows running process information"
 tags: windows_review
 fields:
   host:
     type: str
     in_filter_query: true
     indexed: true
+    description: "Target Windows system"
   user:
     type: str
     in_filter_query: true
     indexed: true
+    description: "Process owner"
   pid:
     type: str
     default: null
+    description: "Process ID"
   cmd:
     type: str
     in_filter_query: true
     indexed: true
+    description: "Executable path"
   args:
     type: str
     in_filter_query: true
     indexed: true
+    description: "Command line arguments"

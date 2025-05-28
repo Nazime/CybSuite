@@ -1,3 +1,4 @@
+description: "Windows registry key entries"
 tags: windows_review
 fields:
   host:
@@ -5,13 +6,17 @@ fields:
     in_filter_query: true
     indexed: true
     default: null
+    description: "Target Windows system"
   path:
     type: str
     in_filter_query: true
     indexed: true
+    description: "Registry key path"
   key:
     type: str
     in_filter_query: true
     indexed: true
+    description: "Registry value name"
   value:
     type: dict  # TODO: should be json!
+    description: "Registry value data"

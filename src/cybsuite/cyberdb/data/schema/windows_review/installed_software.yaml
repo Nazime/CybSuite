@@ -1,13 +1,17 @@
+description: "Windows installed software inventory"
 tags: windows_review
 fields:
   host:
     type: str
     in_filter_query: true
     indexed: true
+    description: "Target Windows system"
   software:
     type: str
     in_filter_query: true
     indexed: true
+    description: "Application name"
   version:
     type: str
     default: null
+    description: "Software version string"

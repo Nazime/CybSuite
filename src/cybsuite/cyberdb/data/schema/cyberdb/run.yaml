@@ -3,15 +3,19 @@ fields:
   tool:
     type: str
     default: null
+    description: "Name of executed tool"
   start_time:
     type: datetime
     default: null
+    description: "Execution start timestamp"
   end_time:
     type: datetime
     default: null
+    description: "Execution end timestamp"
   status:
     type: str
     default: null
+    description: "Current execution state"
     choices:
       - created
       - finished

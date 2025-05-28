@@ -1,4 +1,4 @@
-description: Tags
+description: "Custom labels for data organization"
 pretty_id_fields: "name"
 order: 10
 tags: knowledgebase
@@ -9,7 +9,8 @@ fields:
     unique: true
     repr: true
     max_length: 200
+    description: "Unique tag identifier"
   description:
     type: str
-    description: Description of the object
+    description: "Tag purpose and usage"
     default: null

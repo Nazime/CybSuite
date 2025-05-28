@@ -1,12 +1,15 @@
-description: Plugin
+description: "Plugin configuration and control definitions"
 fields:
   plugin_manager:
     type: plugin_manager
     repr: true
     in_filter_query: true
+    description: "Associated plugin manager"
   name:
     type: str
     indexed: true
     in_filter_query: true
+    description: "Plugin identifier"
   control_definitions:
     type: set[control_definition]
+    description: "Set of controls implemented by plugin"

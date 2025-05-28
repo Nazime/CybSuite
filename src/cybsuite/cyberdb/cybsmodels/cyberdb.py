@@ -1,3 +1,4 @@
+import ipaddress
 from pathlib import Path
 from typing import List, Union
 
@@ -53,8 +54,22 @@ class CyberDB(BaseCyberDB):
         return cls._cyberdb
 
     def resolve_ip(self, ip: str) -> List[str]:
-        """Return all domain names to that specific IP"""
-        return [e["domain_name"] for e in self.request("dns", ip=ip)]
+        """Return all domain names that resolve to the given IP"""
+        return [e.domain_name for e in self.request("dns", ip=ip)]
+
+    def resolve_domain_name(self, domain_name: str) -> List[str]:
+        """Return all IPs that the given domain name resolves to"""
+        return [e.ip for e in self.request("dns", domain_name=domain_name)]
+
+    def resolve(self, value: str) -> List[str]:
+        """Return all domain names or IPs associated with the given value"""
+        try:
+            # Try to parse as IP address
+            ipaddress.ip_address(value)
+            return self.resolve_ip(value)
+        except ValueError:
+            # If not valid IP, treat as domain name
+            return self.resolve_domain_name(value)
 
     def scan(self, scanner_name):
         scanner_cls = pm_passive_scanners[scanner_name]

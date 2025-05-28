@@ -76,7 +76,7 @@ def build_command(main_command: SubcommandParser = None):
     add_cli_schema(main_cli)
 
     main_cli.add_subcommand_from_function(
-        CyberDB.resolve_ip,
+        CyberDB.resolve,
         default_instance=cyberdb,
         group=CMD_GROUP_UTILS,
     )

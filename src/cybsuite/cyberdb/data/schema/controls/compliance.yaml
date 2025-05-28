@@ -1,4 +1,4 @@
-description: Compliance represent a list of control definitions
+description: "Security compliance frameworks and their control requirements"
 tags: knowledgebase
 extra:
   web_menu: knowledgebase
@@ -9,17 +9,19 @@ fields:
     repr: true
     max_length: 200
     in_filter_query: true
+    description: "Unique compliance identifier"
   title:
     type: str
     default: null
     max_length: 200
+    description: "Display name of the control group"
   description:
     type: str
-    description: Description of the control
+    description: "Control group scope and purpose"
     default: null
   provider:
     type: str
-    description: Which enterprise created this compliance
+    description: "Organization that created the controls"
     default: null
     max_length: 200
     examples:
@@ -30,6 +32,8 @@ fields:
     type: str
     default: null
     max_length: 200
+    description: "Control group version identifier"
   date:
     type: date
     default: null
+    description: "Control group publication date"

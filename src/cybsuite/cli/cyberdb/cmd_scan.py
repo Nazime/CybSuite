@@ -15,7 +15,9 @@ class ListAndExit(argparse.Action):
 
 def add_cli_scan(cli_main: SubcommandParser):
     subcmd = cli_main.add_subcommand(
-        "scan", group=CMD_GROUP_PLUGINS, description="Passively scan database"
+        "scan",
+        group=CMD_GROUP_PLUGINS,
+        description="Run passive scanners to identify vulnerabilities and update the database (add/modify/remove entries)",
     )
     subcmd.add_argument(
         "--list",

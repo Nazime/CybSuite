@@ -1,4 +1,4 @@
-description: Template for a specific control.
+description: "Security control specifications and requirements"
 tags: knowledgebase
 extra:
   web_menu: knowledgebase
@@ -10,6 +10,7 @@ fields:
     repr: true
     max_length: 200
     in_filter_query: true
+    description: "Unique control identifier"
     examples:
       - web:sql_injection
       - web:xss
@@ -17,16 +18,15 @@ fields:
       - linux:readable_shadow_file
   control:
     type: str
-    description: The control to do
+    description: "Control objective"
     default: null
     max_length: 200
   control_details:
     type: str
-    description: Details about how to do the control
+    description: "Implementation guidance"
     default: null
   severity:
-    description: Default severity for the definition. The severity could
-      vary in occurrences depending on the context.
+    description: "Default impact severity"
     type: str
     indexed: true
     default: 'undefined'
@@ -34,17 +34,20 @@ fields:
   impact:
     type: str
     default: null
+    description: "Business impact level"
     choices: [ 'info', 'low', 'medium', 'high', 'critical' ]
     hidden_in_list: true
   probability:
     type: str
     default: null
+    description: "Likelihood of occurrence"
     choices: [ 'info', 'low', 'medium', 'high', 'critical' ]
     hidden_in_list: true
   scope:
     type: str
     indexed: true
     default: null
+    description: "Control coverage area"
     choices:
       - test
       - code
@@ -55,22 +58,27 @@ fields:
     type: str
     default: null
     max_length: 200
+    description: "Control category"
   compliances:
     type: set[compliance]
     default: null
+    description: "Related compliance frameworks"
   tags:
     type: set[tag]
     default: null
+    description: "Control classification tags"
   atomic:
-    description: Is this item atomic or not, to see if it can be used in an automated tool
+    description: "Automation capability flag"
     type: bool
     default: null
   references:
     type: str
     default: null
+    description: "External documentation links"
   recommendation_difficulty:
     type: str
     default: null
+    description: "Implementation complexity"
     choices:
       - easy
       - standard
