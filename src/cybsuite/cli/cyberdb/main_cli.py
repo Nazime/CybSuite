@@ -15,6 +15,7 @@ from .cmd_migrate import add_cli_migrate
 from .cmd_report import add_cli_report
 from .cmd_scan import add_cli_scan
 from .cmd_schema import add_cli_schema
+from .cmd_stats import add_cli_stats
 from .cmdi_list import add_cli_list
 from .utils_cmd import (
     CMD_GROUP_DELETE,
@@ -32,10 +33,10 @@ def build_command(main_command: SubcommandParser = None):
     cyberdb = CyberDB.from_default_config()
     if main_command is None:
 
-        main_cli = SubcommandParser("cyberdb", description="Manage the database")
+        main_cli = SubcommandParser("cyberdb", description="Interact with the database")
     else:
         main_cli = main_command.add_subcommand(
-            "cyberdb", description="Manage the database (same as cmd cyberdb)"
+            "cyberdb", description="Interact with the database"
         )
 
     # Creating CMD groups #
@@ -74,6 +75,9 @@ def build_command(main_command: SubcommandParser = None):
 
     # Group delete
     add_cli_cleardb(main_cli)
+
+    # Group utils
+    add_cli_stats(main_cli)
 
     # Other
     add_cli_schema(main_cli)

@@ -56,6 +56,9 @@ class CyberDB(BaseCyberDB):
 
         return cls._cyberdb
 
+    # CONVINIENCE METHODS #
+    # =================== #
+
     def resolve_ip(self, ip: str) -> List[str]:
         """Return all domain names that resolve to the given IP"""
         return [e.domain_name for e in self.request("dns", ip=ip)]
@@ -73,6 +76,9 @@ class CyberDB(BaseCyberDB):
         except ValueError:
             # If not valid IP, treat as domain name
             return self.resolve_domain_name(value)
+
+    # PLUGINS RELATED METHODS #
+    # ======================= #
 
     def scan(self, scanner_name):
         scanner_cls = pm_passive_scanners[scanner_name]
