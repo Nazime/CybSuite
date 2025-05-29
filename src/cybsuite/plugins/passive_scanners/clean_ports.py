@@ -14,11 +14,9 @@ class CleanPortsScanner(BasePassiveScanner):
             services = host.services.all()
             service_ports = {service.port for service in services}
 
-            # Check if only suspicious ports are present
             false_positive_ports = {2000, 5060}
             if service_ports.issubset(false_positive_ports):
                 i_removed_hosts += 1
-                # print(f'Deleting host {host.ip} - only has suspicious ports {service_ports}')
                 # TODO: must also check if this host is not added by other source or ping or ...
                 #  but for now it's ok
                 host.delete()

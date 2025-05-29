@@ -9,6 +9,9 @@ from ..bases.base_passive_scanner import BasePassiveScanner, pm_passive_scanners
 from ..consts import PATH_KNOWLEDGEBASE
 from .models import BaseCyberDB
 
+from cybsuite.core.logger import get_logger
+
+logger = get_logger()
 
 class CyberDB(BaseCyberDB):
     _cyberdb = None
@@ -88,11 +91,11 @@ class CyberDB(BaseCyberDB):
         ingestor_cls = pm_ingestors[toolname]
         ingestor_instance = ingestor_cls(self)
         for filepath in filepaths:
-            print(f"Ingesting {filepath}")
+            logger.info(f"Ingesting {filepath}")
             try:
                 ingestor_instance.run(filepath)
             except Exception as e:
-                print(f"Error {filepath} {e}")
+                logger.error(f"Error {filepath} {e}")
 
     def ingest_all(self, root_filepath):
         for e in self.iter_ingest_all(root_filepath):
