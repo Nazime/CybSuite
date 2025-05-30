@@ -2,6 +2,7 @@ import ipaddress
 from pathlib import Path
 from typing import List, Union
 
+from cybsuite.core.logger import get_logger
 from cybsuite.cyberdb.db_schema import cyberdb_schema
 
 from ..bases.base_ingestor import BaseIngestor, pm_ingestors
@@ -9,9 +10,8 @@ from ..bases.base_passive_scanner import BasePassiveScanner, pm_passive_scanners
 from ..consts import PATH_KNOWLEDGEBASE
 from .models import BaseCyberDB
 
-from cybsuite.core.logger import get_logger
-
 logger = get_logger()
+
 
 class CyberDB(BaseCyberDB):
     _cyberdb = None
@@ -56,8 +56,8 @@ class CyberDB(BaseCyberDB):
 
         return cls._cyberdb
 
-    # CONVINIENCE METHODS #
-    # =================== #
+    # CONVINIENCE METHODS #
+    # =================== #
 
     def resolve_ip(self, ip: str) -> List[str]:
         """Return all domain names that resolve to the given IP"""
@@ -77,8 +77,8 @@ class CyberDB(BaseCyberDB):
             # If not valid IP, treat as domain name
             return self.resolve_domain_name(value)
 
-    # PLUGINS RELATED METHODS #
-    # ======================= #
+    # PLUGINS RELATED METHODS #
+    # ======================= #
 
     def scan(self, scanner_name):
         scanner_cls = pm_passive_scanners[scanner_name]

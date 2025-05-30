@@ -15,6 +15,7 @@ from .cmd_migrate import add_cli_migrate
 from .cmd_report import add_cli_report
 from .cmd_scan import add_cli_scan
 from .cmd_schema import add_cli_schema
+from .cmd_search import add_cli_search
 from .cmd_stats import add_cli_stats
 from .cmdi_list import add_cli_list
 from .utils_cmd import (
@@ -78,6 +79,7 @@ def build_command(main_command: SubcommandParser = None):
 
     # Group utils
     add_cli_stats(main_cli)
+    add_cli_search(main_cli)
 
     # Other
     add_cli_schema(main_cli)

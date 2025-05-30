@@ -1,8 +1,8 @@
 from cybsuite.core.logger import get_logger
 from cybsuite.cyberdb import CyberDB, cyberdb_schema
 from koalak.subcommand_parser import SubcommandParser
-from rich.table import Table
 from rich.console import Console
+from rich.table import Table
 
 from .utils_cmd import CMD_GROUP_UTILS
 

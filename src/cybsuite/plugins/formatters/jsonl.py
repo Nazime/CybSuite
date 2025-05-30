@@ -2,6 +2,7 @@ import json
 from typing import Any
 
 from cybsuite.cyberdb import BaseFormatter, Metadata
+
 from .utils import serialize_value
 
 
@@ -24,7 +25,7 @@ class JSONLFormat(BaseFormatter):
                 value = getattr(obj, field.name)
                 item[field.name] = serialize_value(value)
             # Dump each object as a single line without indentation
-            output.append(json.dumps(item, separators=(',', ':')))
+            output.append(json.dumps(item, separators=(",", ":")))
 
         # Join all lines with newlines
-        return '\n'.join(output)
+        return "\n".join(output)
