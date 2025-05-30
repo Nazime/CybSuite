@@ -23,4 +23,6 @@ def add_cli_search(cli_main: SubcommandParser):
 def _run(args):
     cyberdb = CyberDB.from_default_config()
     # TODO: Implement search functionality
-    console.print(f"[yellow]Search functionality for table '{args.table_name}' will be implemented soon[/yellow]")
+    console.print(
+        f"[yellow]Search functionality for table '{args.table_name}' will be implemented soon[/yellow]"
+    )

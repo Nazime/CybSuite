@@ -26,7 +26,7 @@ django = ">=5.2.1,<6.0.0"
 rich = ">=14.0.0,<15.0.0"
 jinja2 = ">=3.1.6,<4.0.0"
 python-dateutil = ">=2.9.0.post0,<3.0.0"
-koalak = {path = "../koalak", develop = true}
+koalak ="=0.4.2"
 psycopg2-binary = ">=2.9.10,<3.0.0"
 uvicorn = "^0.34.2"
 fastapi = "^0.115.12"
@@ -75,7 +75,8 @@ root_package = "cybsuite"
 name = "Respect layer structure"
 type = "layers"
 layers = [
-    "cybsuite.api | cybsuite.cli",
+    #"cybsuite.api | cybsuite.cli",
+    "cybsuite.cli",
     # "cybsuite.plugins",  # TODO: check if this is needed
     "cybsuite.review",
     # TODO: workspace and cyberdb not yet clear to know interdependencies

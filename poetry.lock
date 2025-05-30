@@ -686,13 +686,15 @@ files = [
 
 [[package]]
 name = "koalak"
-version = "0.4.1"
+version = "0.4.2"
 description = "Library designed to simplify the development of applications with a plugin-based architecture."
 optional = false
 python-versions = ">=3.7"
 groups = ["main"]
-files = []
-develop = true
+files = [
+    {file = "koalak-0.4.2-py3-none-any.whl", hash = "sha256:7a64e57b87356a360eefcdc6bf19fc9087ea65930b9f59d98f0b615fa31c9a5f"},
+    {file = "koalak-0.4.2.tar.gz", hash = "sha256:e002ea1c273bbd0ea664fff8a5f127f08b010ac29b448fabe552143c844a7917"},
+]
 
 [package.dependencies]
 argcomplete = "*"
@@ -709,10 +711,6 @@ typeguard = ">=4"
 dev = ["koalak", "koalak[tests]"]
 docs = ["mkdocs", "mkdocs-awesome-pages-plugin", "mkdocs-git-revision-date-localized-plugin", "mkdocs-glightbox", "mkdocs-material", "mkdocs-minify-plugin", "mkdocs-plugin-progress", "mkdocs-tooltips"]
 tests = ["coloring", "coverage", "pytest (>=4.3.0)"]
-
-[package.source]
-type = "directory"
-url = "../koalak"
 
 [[package]]
 name = "markdown"
@@ -1870,4 +1868,4 @@ bracex = ">=2.1.1"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "7f11a6eda2fc313595a4909d40c2073ed8d1895dad376a3b9dfa3e48a225829f"
+content-hash = "e89464434753f8f0330a8292613e03502ed2e50de7792570ae35c0a8d4c54360"
