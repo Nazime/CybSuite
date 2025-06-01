@@ -2,6 +2,9 @@ stages:
   - test
 
 test:
+  before_script:
+  - curl -sSL https://install.python-poetry.org | python3 -
+  - export PATH="$HOME/.local/bin:$PATH"
   stage: test
   script:
     - pip install tox
@@ -10,10 +13,19 @@ test:
     matrix:
       - PYTHON_VERSION: ["3.10"]
   image: python:${PYTHON_VERSION}
+  services:
+    - postgres:latest
+  variables:
+    CYBSUITE_DB_HOST: "postgres"
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "postgres"
   # rules:
   #  - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TITLE !~ /^Draft:/'
 
 pages:
+  before_script:
+  - curl -sSL https://install.python-poetry.org | python3 -
+  - export PATH="$HOME/.local/bin:$PATH"
   script:
     - pip install tox
     - tox -e mkdocs

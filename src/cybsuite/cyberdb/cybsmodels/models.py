@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 import django.db.models
 from cybsuite.cyberdb.consts import SSMODELS_MODULE_NAME
 from cybsuite.cyberdb.db_schema import (
@@ -28,6 +30,7 @@ extensions = CybSuiteExtension.load_extensions()
 
 # Configure Django with all apps
 # ------------------------------
+
 if not settings.configured:
     installed_apps = [SSMODELS_MODULE_NAME]
     for extension in extensions:
@@ -49,16 +52,21 @@ if not settings.configured:
 # EntityDescription class, then transformed to models
 # This code will models from this project and also 3rd parties extensions
 
-django_models: dict[str, django.db.models.Model] = {}
 
-for app_label, model_names in cyberdb_entities_names_per_extension_schema.items():
-    app_models = schema_description_to_models(
-        cyberdb_schema, app_label=app_label, whitelisted_models=model_names
-    )
-    django_models.update(app_models)
+@lru_cache()
+def get_django_models():
+    django_models: dict[str, django.db.models.Model] = {}
+
+    for app_label, model_names in cyberdb_entities_names_per_extension_schema.items():
+        app_models = schema_description_to_models(
+            cyberdb_schema, app_label=app_label, whitelisted_models=model_names
+        )
+        django_models.update(app_models)
+    return django_models
+
 
 BaseCyberDB = DjangoORMBuilder.build(
     cyberdb_schema,
     name="CyberDB",
-    django_models=django_models,
+    get_django_models=get_django_models,
 )

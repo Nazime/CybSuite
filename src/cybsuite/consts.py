@@ -1,35 +1,32 @@
 import os
 import platform
+import pwd
 from pathlib import Path
 
-VERSION = "0.3.6"
+# Update it also in pyproject.toml
+VERSION = "0.1.1"
 LOGGER_NAME = "cybsuite"
+
 
 if "CYBSUITE_HOME" in os.environ:
     PATH_CYBSUITE = Path(os.environ["CYBSUITE_HOME"])
-
-if "CYBSUITE_USER" in os.environ:
-    USER = os.environ["CYBSUITE_USER"]
-
 else:
-    if "SUDO_USER" in os.environ:
-        USER = os.environ["SUDO_USER"]
+    if "CYBSUITE_USER" in os.environ:
+        _USER = os.environ["CYBSUITE_USER"]
+    elif "SUDO_USER" in os.environ:
+        _USER = os.environ["SUDO_USER"]
+    elif "USER" in os.environ:
+        _USER = os.environ["USER"]
     else:
-        try:
-            USER = os.environ["USER"]
-        except KeyError:
-            USER = os.getlogin()
-
-    # TODO: fix these conditions for consts
+        _USER = os.getlogin()
     if platform.system() == "Windows":
-        _PATH_HOME = Path(os.path.expanduser(f"~{USER}"))
+        _PATH_HOME = Path(os.path.expanduser(f"~{_USER}"))
     else:
-        import pwd
-
-        _PATH_HOME = Path(pwd.getpwnam(USER).pw_dir)
-
+        _PATH_HOME = Path(pwd.getpwnam(_USER).pw_dir)
     PATH_CYBSUITE = _PATH_HOME / "cybsuite"
 
+
+PATH_CYBSUITE = PATH_CYBSUITE.expanduser()
 CONF_FILE_NAME = "conf.toml"
 PATH_CONF_FILE = PATH_CYBSUITE / CONF_FILE_NAME
 

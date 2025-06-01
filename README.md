@@ -1,12 +1,12 @@
 # CybSuite
 
-This project is in Alpha and still under active development.
+This project is currently in Alpha stage and under active development. While core functionality is implemented and tested, the API and features may change significantly between versions.
 
+**CybSuite** is a collection of security tools and scripts for penetration testing, configuration review, and reconnaissance. The following tools are available:
 
-**CybSuite** is a suite of security tools focused on configuration review, with penetration testing capabilities planned for future releases. The following tools are available:
-
+- [**cybs-db**]: A centralized database for penetration testing, configuration review, and security assessments. Features built-in ingestors for common security tools (Nmap, Masscan, etc.), passive vulnerability scanning capabilities, reporting capabilities, and a planned web interface.
 - [**cybs-review**]: A framework for configuration review that performs post-analysis of extracted configurations. Currently working for Windows systems, with Linux support coming soon.
-- [**cybs-db**]: An extensible database designed to store all security-related information.
+
 
 ## Installation
 
@@ -20,10 +20,30 @@ sudo docker run --name postgres \
     -d postgres
 ```
 
+The default PostgreSQL connection settings can be modified in `~/cybsuite/conf.toml`:
+
 Install CybSuite using pipx:
 
 ```bash
 pipx install cybsuite
+```
+
+## Cybs-db quick demo
+
+Cybs-db can ingest various types of security scans, including Nmap and Masscan results:
+
+```bash
+# Ingest scan results
+cybs-db ingest nmap scans/nmap/*.xml
+cybs-db ingest masscan scans/masscan/*
+
+# Request data in different formats
+cybs-db request host --format json > hosts.json
+cybs-db request service --format ipport --protocol tcp > ipport_tcp.txt
+cybs-db request service --port 445 --format ip > smb.txt
+
+# Report identified vulnerabilities
+cybs-db report html
 ```
 
 ## Cybs-review quick demo
@@ -52,8 +72,6 @@ cybs-review review extracts_WIN-ALPHA.zip extracts_WIN-BETA.zip --open-report
 ![Report Summary](https://raw.githubusercontent.com/Nazime/CybSuite/main/images/cybs-review_report_summary.png)
 
 ![Report Controls](https://raw.githubusercontent.com/Nazime/CybSuite/main/images/cybs-review_report_controls.png)
-
-## Cybs-db
 
 Query the database from your previous review run:
 

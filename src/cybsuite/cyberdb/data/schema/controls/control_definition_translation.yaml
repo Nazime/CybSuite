@@ -1,4 +1,4 @@
-description: Template for a specific control.
+description: "Localized control definition content"
 tags: knowledgebase
 extra:
   web_menu: knowledgebase
@@ -7,6 +7,7 @@ fields:
     type: control_definition
     repr: true
     in_filter_query: true
+    description: "Reference to base control definition"
   lang:
     type: str
     indexed: true
@@ -14,23 +15,26 @@ fields:
     max_length: 10
     examples: ['fr', 'en']
     repr: true
+    description: "Language code"
   title:
     type: str
     default: null
     max_length: 200
+    description: "Localized control title"
   description:
     type: str
-    description: Description of the control
+    description: "Localized control description"
     default: null
   risk:
     type: str
-    description: Risk affecting the control
+    description: "Localized risk assessment"
     default: null
   recommendation:
     type: str
-    description: Recommendation for this control
+    description: "Localized remediation guidance"
     default: null
   proof_comments:
     type: str
     default: null
     hidden_in_list: true
+    description: "Localized evidence notes"

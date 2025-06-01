@@ -6,9 +6,9 @@ from cybsuite.cyberdb import CyberDB
 from psycopg2 import sql
 
 temp_db_name = "_cybsuite_cyberdb_"
-user = os.environ.get("TEST_POSTGRES_USER", "postgres")
-password = os.environ.get("TEST_POSTGRES_PASSWORD", "postgres")
-host = os.environ.get("TEST_POSTGRES_HOST", "127.0.0.1")
+user = os.environ.get("CYBSUITE_DB_USER", "postgres")
+password = os.environ.get("CYBSUITE_DB_PASSWORD", "postgres")
+host = os.environ.get("CYBSUITE_DB_HOST", "127.0.0.1")
 
 _cyberdb = None
 

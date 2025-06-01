@@ -1,4 +1,4 @@
-description: Control
+description: "Security control implementation and validation status"
 extra:
   web_menu: controls_reports
 fields:
@@ -6,10 +6,12 @@ fields:
     type: control_definition
     repr: true
     in_filter_query: true
+    description: "Reference to control definition"
   status:
     type: str
     indexed: true
     default: not_started
+    description: "Current control validation state"
     choices:
       - ok
       - ko
@@ -22,15 +24,18 @@ fields:
     repr: true
     in_filter_query: true
     indexed: true
+    description: "Control-specific validation data"
   severity:
     type: str
     default: null
+    description: "Impact severity level"
     choices: [ 'undefined','info', 'low', 'medium', 'high', 'critical' ]
   confidence:
-    description: Level of confidence for this control to be real or false positive.
+    description: "Finding confidence level"
     type: str
     default: null
     choices:
+      - undefined
       - true_positive
       - certain
       - firm
@@ -40,12 +45,12 @@ fields:
   justification:
     type: str
     default: null
-    description: Justify why and how this control occurred.
+    description: "Evidence and reasoning for control status"
     examples:
-      - Identified in file /etc/shadow
-      - Identified pattern in HTML response
-      - Version is known to have bad CVE
+      - "Identified in file /etc/shadow"
+      - "Identified pattern in HTML response"
+      - "Version is known to have bad CVE"
   latest_run:
     type: run
     default: null
-    description: 'Latest run for this control. Save this information to be able to request controls by run object. Which is useful when generating reports of single CLI run (ex: cybs-review)'
+    description: "Most recent execution reference"

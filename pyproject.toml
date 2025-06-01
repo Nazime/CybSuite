@@ -1,59 +1,100 @@
-[project]
-name= "cybsuite"
-version = "0.0.1"  # change it in const also
+[tool.poetry]
+name = "cybsuite"
+# Update version also in consts.py
+version = "0.1.1"
 description = "CybSuite"
-readme="README.md"
-requires-python = ">=3.7"
-license = {file = "LICENSE"}
+authors = ["Nazime LAKEHAL <nazime.lkh@gmail.com>"]
+license = "Apache-2.0"
+readme = "README.md"
 
+# Pour packaging en mode src/
+packages = [
+    { include = "cybsuite", from = "src" }
+]
 
-authors = [
-  {name = "Nazime LAKEHAL",  email = "nazime.lkh@gmail.com" }
+# Pour inclure les fichiers de données
+include = [
+    { path = "src/cybsuite/cyberdb/data", format = "sdist" },
+    { path = "src/cybsuite/review/data", format = "sdist" }
 ]
 
 
-# FIXME: check dependencies later
-dependencies = [
-    "koalak>=0.4.1",
-    "requests",
-    # cyberdb
-    "django",
-    "psycopg2-binary",
-    # Windows
-    "python-dateutil",
-    # reports
-    "jinja2",
-    # All
-    "rich",
-    # "devtools",
-]
 
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+requests = ">=2.32.3,<3.0.0"
+django = ">=5.2.1,<6.0.0"
+rich = ">=14.0.0,<15.0.0"
+jinja2 = ">=3.1.6,<4.0.0"
+python-dateutil = ">=2.9.0.post0,<3.0.0"
+koalak ="==0.4.2"
+psycopg2-binary = ">=2.9.10,<3.0.0"
+uvicorn = "^0.34.2"
+fastapi = "^0.115.12"
+python-multipart = "^0.0.20"
 
-[project.optional-dependencies] # Optional
-docs = ["mkdocs", "mkdocs-material", "mkdocs-plugin-progress", "mkdocs-tooltips", "mkdocs-minify-plugin", "mkdocs-git-revision-date-localized-plugin", 'mkdocs-glightbox', "mkdocs-awesome-pages-plugin"]
-tests = [
-        "coverage",
-        "pytest>=4.3.0",  # 4.3.0 dropped last use of `convert`
-
-    ]
-dev = ["cybsuite", "cybsuite[tests]"]
-
-
-[project.scripts]
-cybs-review="cybsuite.review.__main__:main"
-cybsuite-review="cybsuite.review.__main__:main"
-cybs-db="cybsuite.cyberdb.__main__:main"
-cybsuite-db="cybsuite.cyberdb.__main__:main"
-cybs-workspace="cybsuite.workspace.__main__:main"
-cybsuite-workspace="cybsuite.workspace.__main__:main"
-
-[tool.setuptools.package-data]
-"cybsuite.cyberdb" = ["data/**"]
-"cybsuite.review" = ["data/**"]
 
 [build-system]
-requires = [
-    "setuptools >= 61.0.0",
-    "wheel >= 0.30.0",
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+
+[tool.poetry.scripts]
+cybs-review="cybsuite.cli.review.__main__:main"
+cybsuite-review="cybsuite.cli.review.__main__:main"
+cybs-db="cybsuite.cli.cyberdb.__main__:main"
+cybsuite-db="cybsuite.cli.cyberdb.__main__:main"
+cybs-workspace="cybsuite.cli.workspace.__main__:main"
+cybsuite-workspace="cybsuite.cli.workspace.__main__:main"
+
+# IMPORT LINTER CONFIGURATION #
+# =========================== #
+
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.6.1"
+mkdocs-material = "^9.6.14"
+mkdocs-plugin-progress = "^1.2.0"
+mkdocs-tooltips = "^0.1.0"
+mkdocs-minify-plugin = "^0.8.0"
+mkdocs-git-revision-date-localized-plugin = "^1.4.5"
+mkdocs-glightbox = "^0.4.0"
+mkdocs-awesome-pages-plugin = "^2.10.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+coverage = "^7.8.2"
+pytest-asyncio = "^0.26.0"
+httpx = "^0.28.1"
+
+[tool.importlinter]
+root_package = "cybsuite"
+
+[[tool.importlinter.contracts]]
+name = "Respect layer structure"
+type = "layers"
+layers = [
+    #"cybsuite.api | cybsuite.cli",
+    "cybsuite.cli",
+    # "cybsuite.plugins",  # TODO: check if this is needed
+    "cybsuite.review",
+    # TODO: workspace and cyberdb not yet clear to know interdependencies
+    "cybsuite.workspace",
+    "cybsuite.cyberdb",
+    # TODO: core depends on workscpace ! not good! "cybsuite.core",
+    # Extension is kind of dataclass only
+    "cybsuite.extension",
+    # Basic consts
+    "cybsuite.utils",
+    "cybsuite.consts",
 ]
-build-backend = 'setuptools.build_meta'
+
+[[tool.importlinter.contracts]]
+name = "Cyber DB"
+type = "layers"
+layers = [
+    "cybsuite.cyberdb.cybsmodels",
+    "cybsuite.cyberdb.django_orm"
+]

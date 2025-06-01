@@ -1,44 +1,58 @@
+description: "Windows user account information"
 tags: windows_review
 fields:
   user:
     type: str
     in_filter_query: true
     indexed: true
+    description: "Username"
   host:
     type: str
     in_filter_query: true
     indexed: true
     default: null
+    description: "Target Windows system"
   rid:
     type: str
     default: null
+    description: "Relative identifier"
   sid:
     type: str
     default: null
+    description: "Security identifier"
   AcctDisabled:
     type: bool
     default: null
+    description: "Account disabled status"
   PswdCanBeChanged:
     type: bool
     default: null
+    description: "Password change permission"
   PswdLastSetTime:
     type: str
     default: null
+    description: "Last password change time"
   PswdRequired:
     type: bool
     default: null
+    description: "Password requirement status"
   PswdExpires:
     type: bool
     default: null
+    description: "Password expiration status"
   PswdExpiresTime:
     type: str
     default: str
+    description: "Password expiration time"
   lm:
     type: str
     default: null
+    description: "LM hash"
   ntlm:
     type: str
     default: null
+    description: "NTLM hash"
   comment:
     type: str
     default: null
+    description: "Account description"

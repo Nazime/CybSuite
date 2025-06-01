@@ -1,7 +1,7 @@
 import datetime
 import json
 from pathlib import Path
-from typing import Iterable
+from typing import Any, Iterable
 
 import django.db.models
 import psycopg2
@@ -24,7 +24,7 @@ DEFAULT_FORMAT = "yaml"
 class DjangoORMBuilder(AbstractDatabaseBuilder):
     @classmethod
     def build(
-        cls, schema: SchemaDescription, *, name: str = None, django_models
+        cls, schema: SchemaDescription, *, name: str = None, get_django_models
     ) -> "DjangoORMDatabase":
         if name is None:
             name = "Database"
@@ -34,7 +34,7 @@ class DjangoORMBuilder(AbstractDatabaseBuilder):
             (DjangoORMDatabase,),
             {
                 "schema": schema,
-                "django_models": django_models,
+                "get_django_models": staticmethod(get_django_models),
             },
         )
         return django_orm_database_cls
@@ -43,7 +43,7 @@ class DjangoORMBuilder(AbstractDatabaseBuilder):
 class DjangoORMDatabase(AbstractDatabase):
     schema: SchemaDescription
     django_models: dict[str, Model]
-
+    get_django_models: Any
     _django_alias_unique_name_counter = 0
 
     DATE_FORMAT = "%m-%d-%Y"
@@ -54,6 +54,7 @@ class DjangoORMDatabase(AbstractDatabase):
         port: int = None,
         **kwargs,
     ):
+        self.django_models = self.get_django_models()
         if port is None:
             port = 5432
 
@@ -300,30 +301,6 @@ class DjangoORMDatabase(AbstractDatabase):
         else:
             return new_obj, insertion_status
 
-    def feed_simple(self, _model_name: str, **attributes):
-        entity_description = self.schema[_model_name]
-        in_filter_queries = entity_description.get_in_filter_query_attributes()
-        not_in_filter_queries = entity_description.get_not_in_filter_query_attributes()
-        column_names = ", ".join(attributes)
-        # value_placeholders = ", ".join(["%s"] * len(attributes))
-        value_placeholders = "%s, %s, %s, %s::jsonb"
-        conflict_target = ", ".join(e.name for e in in_filter_queries)
-        update_clause = ", ".join(
-            [f"{col.name} = EXCLUDED.{col.name}" for col in not_in_filter_queries]
-        )
-        query = f"""
-            INSERT INTO {entity_description.name} ({column_names})
-            VALUES ({value_placeholders})
-            ON CONFLICT ({conflict_target})
-            DO UPDATE SET {update_clause};
-            """
-
-        with self._connection.cursor() as cursor:
-            # Execute the query with the provided attributes as values
-            cursor.execute(query, tuple(attributes.values()))
-            # Commit the transaction
-            self._connection.commit()
-
     def request(self, _model_name, **attributes) -> Iterable[dict]:
         try:
             objects = self._django_objects[_model_name]
@@ -350,6 +327,54 @@ class DjangoORMDatabase(AbstractDatabase):
             raise ValueError(f"No model found with the name '{_model_name}'")
 
         return objects.filter(**attributes).count()
+
+    def delete_one(self, _model_name: str, **attributes) -> bool:
+        """Delete a single entry from the database that matches the given criteria.
+
+        Args:
+            _model_name: The name of the model to delete from
+            **attributes: Filter criteria to identify the row to delete
+
+        Returns:
+            bool: True if an entry was deleted, False if no matching entry was found
+
+        Raises:
+            ValueError: If multiple entries match the criteria or model doesn't exist
+        """
+        try:
+            objects = self._django_objects[_model_name]
+        except KeyError:
+            raise ValueError(f"No model found with the name '{_model_name}'")
+
+        queryset = objects.filter(**attributes)
+        if queryset.count() > 1:
+            raise ValueError(
+                f"Multiple entries match the criteria. Use delete_many() instead."
+            )
+
+        deleted_count = queryset.delete()[0]
+        return deleted_count > 0
+
+    def delete_many(self, _model_name: str, **attributes) -> int:
+        """Delete multiple entries from the database that match the given criteria.
+
+        Args:
+            _model_name: The name of the model to delete from
+            **attributes: Filter criteria to identify rows to delete
+
+        Returns:
+            int: Number of entries deleted
+
+        Raises:
+            ValueError: If model doesn't exist
+        """
+        try:
+            objects = self._django_objects[_model_name]
+        except KeyError:
+            raise ValueError(f"No model found with the name '{_model_name}'")
+
+        deleted_count = objects.filter(**attributes).delete()[0]
+        return deleted_count
 
     def clear_one_model(self, model_name: str):
         try:
