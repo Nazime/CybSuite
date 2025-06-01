@@ -3,7 +3,7 @@ import platform
 import pwd
 from pathlib import Path
 
-# Update it also in pyproject.toml
+# Update it also in pyproject.toml
 VERSION = "0.1.1"
 LOGGER_NAME = "cybsuite"
 
