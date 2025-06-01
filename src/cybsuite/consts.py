@@ -3,11 +3,7 @@ import platform
 import pwd
 from pathlib import Path
 
-<<<<<<< HEAD
 # Update it also in pyproject.toml
-=======
-# Update it also in pyproject.toml
->>>>>>> nazime_work
 VERSION = "0.1.1"
 LOGGER_NAME = "cybsuite"
 
