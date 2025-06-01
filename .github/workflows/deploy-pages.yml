@@ -19,11 +19,14 @@ jobs:
           python-version: '3.10'
 
       # Install dependencies for documentation
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+
       - name: Install MkDocs and dependencies
         run: |
-          pip install --upgrade pip
-          pip install .[docs]  # Install documentation dependencies defined in pyproject.toml
+          poetry install --with docs
 
       - name: Deploy to GitHub Pages
         run: |
-          mkdocs gh-deploy --config-file docs/mkdocs.yml --force
+          poetry run mkdocs gh-deploy --config-file docs/mkdocs.yml --force
