@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from cybsuite.consts import PATH_CYBSUITE
-from koalak.plugin_manager import Plugin, PluginManager, abstract, field
+from koalak.plugin_manager import Plugin, PluginManager, abstract
 
 if TYPE_CHECKING:
     from cybsuite.cyberdb import CyberDB

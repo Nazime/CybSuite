@@ -28,12 +28,12 @@ class RegistriesReviewer(WindowsReviewer):
 
 # TODO fix JucyRegistryReviewer later
 class JucyRegistryReviewer:
-    name = "jucy_registry"
+    name = "juicy_registry"
     metadata = Metadata(
         category="windows",
-        description="Review jucy registries for passwords and sensitive information",
+        description="Review juicy registries for passwords and sensitive information",
     )
-    controls = ["windows:jucy_registry"]
+    controls = ["windows:juicy_registry"]
 
     def do_run(self, files):
         keywords = [
@@ -53,7 +53,7 @@ class JucyRegistryReviewer:
                 for keyword in keywords:
                     if keyword in reg_key_lower or keyword in reg_value_lower:
                         self.alert(
-                            "windows:jucy_registry",
+                            "windows:juicy_registry",
                             details={
                                 "registry_path": registry_path,
                                 "registry_key": reg_key,

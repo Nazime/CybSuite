@@ -3,12 +3,12 @@ TODO: Many sub commands and code are not used. Will be added or removed in futur
 import sys
 
 import rich
-from cybsuite.cyberdb import CyberDB, pm_formatters, pm_ingestors, pm_reporters
-from cybsuite.cyberdb.config import cyberdb_config
+from cybsuite.cyberdb import CyberDB, pm_formatters
 from koalak.subcommand_parser import SubcommandParser
 from rich.console import Console
 
 from .cmd_cleardb import add_cli_cleardb
+from .cmd_clearmodel import add_cli_clearmodel
 from .cmd_ingest import add_cli_ingest
 from .cmd_makemigrations import add_cli_makemigrations
 from .cmd_migrate import add_cli_migrate
@@ -76,6 +76,7 @@ def build_command(main_command: SubcommandParser = None):
 
     # Group delete
     add_cli_cleardb(main_cli)
+    add_cli_clearmodel(main_cli)
 
     # Group utils
     add_cli_stats(main_cli)
@@ -232,43 +233,38 @@ def print_success(*msg):
 
 
 def run_request(args):
+    # TODO: handle sort and fields
+    # TODO: hidden fields are not working
+    dict_args = vars(args)
+    entity_name = dict_args.pop("entity_name")
+    sort = dict_args.pop("sort")
+    limit = dict_args.pop("limit")
+    skip = dict_args.pop("skip")
+    fields = dict_args.pop("fields")
+    no_fields = dict_args.pop("no_fields")
+    format = dict_args.pop("format")
+    output = dict_args.pop("output")
+    count = dict_args.pop("count")
+
     db = CyberDB.from_default_config()
-    data = db.request(args.entity_name)
 
-    # Apply filters if specified
-    if hasattr(args, "fields") and args.fields:
-        data = data.values(*args.fields)
-    if hasattr(args, "no_fields") and args.no_fields:
-        data = data.values(
-            *[f for f in data.model._meta.fields if f.name not in args.no_fields]
-        )
-    if hasattr(args, "sort") and args.sort:
-        data = data.order_by(*args.sort)
-    if hasattr(args, "limit") and args.limit:
-        data = data[: args.limit]
-    if hasattr(args, "skip") and args.skip:
-        data = data[args.skip :]
-
-    # Apply filters
     filters = {}
-    for field in data.model._meta.fields:
-        if hasattr(args, field.name) and getattr(args, field.name) is not None:
-            filters[field.name] = getattr(args, field.name)
-        if hasattr(args, f"no_{field.name}") and getattr(args, f"no_{field.name}"):
-            filters[f"{field.name}__not_in"] = getattr(args, f"no_{field.name}")
-    if filters:
-        data = data.filter(**filters)
+    for filter_name, filter_value in dict_args.items():
+        if filter_value is None:
+            continue
+        filter_name = filter_name.replace("-", "_")
+        filters[filter_name] = filter_value
 
-    # Format output
-    formatter = pm_formatters[args.format]()
-    output = formatter.format(data)
-
-    # Write to file or stdout
-    if hasattr(args, "output") and args.output:
-        with open(args.output, "w") as f:
-            f.write(output)
-    else:
-        print(output)
+    data = db.request(
+        entity_name,
+        format=format,
+        filters=filters,
+        limit=limit,
+        skip=skip,
+        fields=fields,
+        no_fields=no_fields,
+    )
+    print(data)
 
 
 def run_count(args):

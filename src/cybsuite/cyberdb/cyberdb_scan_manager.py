@@ -1,12 +1,11 @@
 import contextlib
 import time
 import traceback
-from typing import Callable, Iterable, Optional, Type
+from typing import Callable, Iterable, Optional
 
-import rich
 from cybsuite.core.logger import get_rich_console
 from koalak.plugin_manager import Plugin, PluginManager
-from rich.progress import Progress, track
+from rich.progress import Progress
 
 from .cybsmodels import CyberDB
 

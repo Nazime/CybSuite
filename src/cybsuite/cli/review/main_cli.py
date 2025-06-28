@@ -1,5 +1,3 @@
-from importlib.metadata import entry_points
-
 from cybsuite.extension import CybSuiteExtension
 from koalak.subcommand_parser import SubcommandParser
 

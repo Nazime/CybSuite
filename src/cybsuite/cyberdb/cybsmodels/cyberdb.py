@@ -1,13 +1,15 @@
 import ipaddress
 import os
+from io import StringIO
 from pathlib import Path
-from typing import List, Union
+from typing import Iterable, List, Union
 
 from cybsuite.core.logger import get_logger
 from cybsuite.cyberdb.db_schema import cyberdb_schema
 
+from ..bases.base_formatter import pm_formatters
 from ..bases.base_ingestor import BaseIngestor, pm_ingestors
-from ..bases.base_passive_scanner import BasePassiveScanner, pm_passive_scanners
+from ..bases.base_passive_scanner import pm_passive_scanners
 from ..consts import PATH_KNOWLEDGEBASE
 from .models import BaseCyberDB
 
@@ -83,6 +85,68 @@ class CyberDB(BaseCyberDB):
 
     # PLUGINS RELATED METHODS #
     # ======================= #
+    # TODO: not finished
+    def request(
+        self,
+        _model_name,
+        format: str = None,
+        skip: int = None,
+        limit: int = None,
+        filters: dict = None,
+        fields: list = None,
+        no_fields: list = None,
+        output: str = None,
+        **_filters,
+    ) -> Iterable[dict]:
+        # Ensure no overlapping keys between filters and _filters
+        if filters is not None:
+            common_keys = set(filters.keys()) & set(_filters.keys())
+            if common_keys:
+                raise ValueError(f"Duplicate filter keys found: {common_keys}")
+            _filters.update(filters)
+
+        data = super().request(_model_name, **_filters)
+        if skip is not None:
+            data = data[skip:]
+        if limit is not None:
+            data = data[:limit]
+
+        if format is None:
+            return data
+
+        # Get entity schema to determine fields
+        entity = self.schema[_model_name]
+        # Get field names based on formatter settings
+        formatter = pm_formatters[format]()
+        fields_objects = [f for f in entity if not f.is_linked_by_related_name]
+        if not formatter.include_hidden_fields:
+            fields_names = [f.name for f in fields_objects if not f.hidden_in_list]
+        else:
+            fields_names = [f.name for f in fields_objects]
+
+        # Include or exclude fields
+        if fields is not None:
+            fields_names = [f for f in fields_names if f in fields]
+        if no_fields is not None:
+            fields_names = [f for f in fields_names if f not in no_fields]
+
+        # Convert to dict
+        data = [
+            self.model_to_dict_with_str_fk(row, fields=fields_names) for row in data
+        ]
+
+        # Format the data using the specified formatter
+        if output is None:
+            output = StringIO()
+        elif isinstance(output, str):
+            # TODO: close file?
+            output = open(output, "w")
+        formatter.format(data, output, fields_names)
+
+        if isinstance(output, StringIO):
+            return output.getvalue()
+        else:
+            return output
 
     def scan(self, scanner_name):
         scanner_cls = pm_passive_scanners[scanner_name]
@@ -105,7 +169,9 @@ class CyberDB(BaseCyberDB):
             try:
                 ingestor_instance.run(filepath)
             except Exception as e:
-                logger.error(f"Error {filepath} {e}")
+                logger.error(
+                    f"Error ingesting file {filepath} with {toolname} ingestor: {type(e).__name__} - {str(e)}"
+                )
 
     def ingest_all(self, root_filepath):
         for e in self.iter_ingest_all(root_filepath):

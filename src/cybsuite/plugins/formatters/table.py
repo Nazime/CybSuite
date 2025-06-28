@@ -1,6 +1,4 @@
-from datetime import datetime
-from io import StringIO
-from typing import Any
+from typing import TextIO
 
 from cybsuite.cyberdb import BaseFormatter, Metadata
 from rich.console import Console
@@ -13,41 +11,20 @@ class TableFormat(BaseFormatter):
     name = "table"
     metadata = Metadata(description="Format to a rich table for human reading")
 
-    def _format_value(self, value: Any) -> str:
-        """Format a value for human reading.
+    include_hidden_fields = False
 
-        Args:
-            value: Value to format
+    def format(self, data: list[dict], output: TextIO, fields: list[str]) -> None:
+        if not data:
+            output.write("No data")
+            return
 
-        Returns:
-            Formatted string
-        """
-        if isinstance(value, datetime):
-            return value.strftime("%Y-%m-%d %H:%M:%S")
-        if value is None:
-            return ""
-        return str(value)
+        table = Table(title="Data")
 
-    def format(self, queryset: Any) -> str:
-        if not queryset:
-            return "No data"
+        # Add columns and rows
+        for field in fields:
+            table.add_column(field)
 
-        table = Table(title=f"{queryset.model.__name__} Data")
+        for row in data:
+            table.add_row(*[str(row[f]) if row[f] is not None else "" for f in fields])
 
-        # Add columns
-        for field in queryset.model._meta.fields:
-            table.add_column(field.name)
-
-        # Add rows
-        for obj in queryset:
-            row = [
-                self._format_value(getattr(obj, f.name))
-                for f in queryset.model._meta.fields
-            ]
-            table.add_row(*row)
-
-        # Render to string
-        console = Console()
-        with console.capture() as capture:
-            console.print(table)
-        return capture.get()
+        Console(file=output).print(table)

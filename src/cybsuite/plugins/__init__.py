@@ -1,1 +1,1 @@
-from . import formatters, ingestors, passive_scanners, reporters
+from . import formatters, ingestors, passive_scanners, reporters  # noqa: F401

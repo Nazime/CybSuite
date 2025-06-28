@@ -10,7 +10,6 @@ from cybsuite.workspace.workspaces import (
 from koalak.subcommand_parser import SubcommandParser
 from rich.console import Console
 from rich.panel import Panel
-from rich.style import Style
 from rich.text import Text
 
 

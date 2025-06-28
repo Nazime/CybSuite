@@ -1,27 +1,27 @@
 import json
-from typing import Any
+from typing import TextIO
 
 from cybsuite.cyberdb import BaseFormatter, Metadata
 
-from .utils import serialize_value
 
-
-class JSONFormatter(BaseFormatter):
-    """Format queryset as JSON string."""
+class JSONFormat(BaseFormatter):
+    """Format queryset as JSON."""
 
     name = "json"
-    metadata = Metadata(description="Format to JSON")
+    metadata = Metadata(description="Format to JSON array")
 
-    def format(self, queryset: Any) -> str:
-        if not queryset:
-            return "[]"
+    def format(self, data: list[dict], output: TextIO, fields: list[str]) -> None:
+        # Write opening bracket
+        output.write("[\n")
 
-        data = []
-        for obj in queryset:
-            item = {}
-            for field in queryset.model._meta.fields:
-                value = getattr(obj, field.name)
-                item[field.name] = serialize_value(value)
-            data.append(item)
+        first = True
+        for item in data:
+            if not first:
+                output.write(",\n")
+            first = False
 
-        return json.dumps(data, indent=2)
+            # Build and write one object at a time
+            json.dump(item, output, indent=2)
+
+        # Write closing bracket
+        output.write("\n]")

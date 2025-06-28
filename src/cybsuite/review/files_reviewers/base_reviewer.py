@@ -1,12 +1,8 @@
 import json
-import os
-import subprocess
-import sys
-import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
-from typing import Any, ClassVar, List, Optional
+from typing import Any
 
 from cybsuite.consts import PATH_CYBSUITE
 from cybsuite.cyberdb import CyberDBScanner

@@ -1,5 +1,6 @@
 import datetime
 import json
+from itertools import chain
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -8,7 +9,7 @@ import psycopg2
 import psycopg2.sql
 import yaml
 from cybsuite.extension import CybSuiteExtension
-from django.db.models import Model
+from django.db.models import ForeignKey, Model
 from django.forms.models import model_to_dict
 from koalak.descriptions import EntityDescription, FieldDescription, SchemaDescription
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
@@ -68,9 +69,9 @@ class DjangoORMDatabase(AbstractDatabase):
             host=self.host,
             port=self.port,
         )
-        self._django_objects: dict[str, "django.db.models.query.QuerySet"] = {}
+        self.django_objects: dict[str, "django.db.models.query.QuerySet"] = {}
         for model_name, model in self.django_models.items():
-            self._django_objects[model_name] = model.objects.using(
+            self.django_objects[model_name] = model.objects.using(
                 self._django_alias_db_config
             )
 
@@ -183,7 +184,7 @@ class DjangoORMDatabase(AbstractDatabase):
     # ============================= #
     def create(self, _model_name: str, **attributes):
         """Create a new entry in the database"""
-        objects = self._django_objects[_model_name]
+        objects = self.django_objects[_model_name]
         return objects.create(**attributes)
 
     def feed(self, _model_name: str, _get_old_entry: bool = False, **attributes):
@@ -195,7 +196,7 @@ class DjangoORMDatabase(AbstractDatabase):
         # TODO: TEST Many to many fields! ex: feed('definition', name="x", tags=['a'])
         entity = self.schema[_model_name]
         django_model = self.django_models[_model_name]
-        objects = self._django_objects[_model_name]
+        objects = self.django_objects[_model_name]
         filter_query = {}
         cleaned_attributes = {}
 
@@ -226,7 +227,7 @@ class DjangoORMDatabase(AbstractDatabase):
             else:
                 one_to_many_field: FieldDescription
                 fk_entity = one_to_many_field.type
-                fk_objects = self._django_objects[fk_entity.name]
+                fk_objects = self.django_objects[fk_entity.name]
                 fk_primary_attribute = fk_entity.in_filter_query_attributes
                 if len(fk_primary_attribute) == 1:
                     fk_filter = {
@@ -264,7 +265,7 @@ class DjangoORMDatabase(AbstractDatabase):
 
             fk_field_value = cleaned_attributes[many_to_many_field.name]
             fk_model = self.django_models[many_to_many_field.atomic_type.name]
-            fk_objects = self._django_objects[many_to_many_field.atomic_type.name]
+            fk_objects = self.django_objects[many_to_many_field.atomic_type.name]
             fk_primary_key_name = fk_entity.in_filter_query_attributes[0].name
 
             if not isinstance(fk_field_value, (list, tuple)):
@@ -301,17 +302,26 @@ class DjangoORMDatabase(AbstractDatabase):
         else:
             return new_obj, insertion_status
 
-    def request(self, _model_name, **attributes) -> Iterable[dict]:
+    def request(self, _model_name, **_filters) -> Iterable[dict]:
+        """
+        Args:
+            _model_name: model to request
+            format: format to return the results
+            filters: filters to apply to the request (useful if we have colision with reserved keywords arguments)
+            **_filters: additional filters to apply to the request
+
+        Returns:
+        """
         try:
-            objects = self._django_objects[_model_name]
+            objects = self.django_objects[_model_name]
         except:
             raise ValueError(f"No model found with the name '{_model_name}'")
 
-        return objects.filter(**attributes)
+        return objects.filter(**_filters)
 
     def first(self, _model_name, **attributes):
         try:
-            objects = self._django_objects[_model_name]
+            objects = self.django_objects[_model_name]
         except:
             raise ValueError(f"No model found with the name '{_model_name}'")
 
@@ -322,7 +332,7 @@ class DjangoORMDatabase(AbstractDatabase):
 
     def count(self, _model_name: str, **attributes) -> int:
         try:
-            objects = self._django_objects[_model_name]
+            objects = self.django_objects[_model_name]
         except:
             raise ValueError(f"No model found with the name '{_model_name}'")
 
@@ -342,7 +352,7 @@ class DjangoORMDatabase(AbstractDatabase):
             ValueError: If multiple entries match the criteria or model doesn't exist
         """
         try:
-            objects = self._django_objects[_model_name]
+            objects = self.django_objects[_model_name]
         except KeyError:
             raise ValueError(f"No model found with the name '{_model_name}'")
 
@@ -369,7 +379,7 @@ class DjangoORMDatabase(AbstractDatabase):
             ValueError: If model doesn't exist
         """
         try:
-            objects = self._django_objects[_model_name]
+            objects = self.django_objects[_model_name]
         except KeyError:
             raise ValueError(f"No model found with the name '{_model_name}'")
 
@@ -378,14 +388,14 @@ class DjangoORMDatabase(AbstractDatabase):
 
     def clear_one_model(self, model_name: str):
         try:
-            objects = self._django_objects[model_name]
+            objects = self.django_objects[model_name]
         except:
             raise ValueError(f"No model found with the name '{model_name}'")
 
         objects.all().delete()
 
     def cleardb(self):
-        for objects in self._django_objects.values():
+        for objects in self.django_objects.values():
             objects.all().delete()
 
     def save_models(self, folderpath: str, _format=None, **filters):
@@ -458,7 +468,7 @@ class DjangoORMDatabase(AbstractDatabase):
             raise ValueError(f"unknown format {format}")
 
         model_cls = self.django_models[model_name]
-        django_objects = self._django_objects[model_name]
+        django_objects = self.django_objects[model_name]
         entity_description = self.schema[model_name]
 
         # PREPARE SPECIAL FIELDS INTO LISTS #
@@ -507,7 +517,7 @@ class DjangoORMDatabase(AbstractDatabase):
             #  {"id": 5, "name": "alpha"}
             for fk_entity_description, fk_in_query_filter_field_name in fk_fields:
                 fk_entity_name = fk_entity_description.type.name
-                fk_objects = self._django_objects[fk_entity_name]
+                fk_objects = self.django_objects[fk_entity_name]
                 # ex: fk_instance = ControlDefinition.objects.get(id=row['control_definition'])
                 fk_instance = fk_objects.get(id=row[fk_entity_description.name])
                 fk_value = getattr(fk_instance, fk_in_query_filter_field_name)
@@ -560,6 +570,33 @@ class DjangoORMDatabase(AbstractDatabase):
             entity.many_to_many_attributes = [
                 e for e in entity if e.has_relationship() and e.is_sequence()
             ]
+
+    def model_to_dict_with_str_fk(self, instance, fields=None, exclude=None):
+        """
+        Enhanced version of model_to_dict() that converts FKs to str(instance.fk)
+        instead of raw ID.
+        """
+        # TODO: optimize this? by caching and add model before?
+        opts = instance._meta
+        data = {}
+
+        for f in chain(opts.concrete_fields, opts.private_fields, opts.many_to_many):
+            if not getattr(f, "editable", False):
+                continue
+            if fields is not None and f.name not in fields:
+                continue
+            if exclude and f.name in exclude:
+                continue
+
+            # Direct use of getattr to avoid raw ID resolution
+            value = getattr(instance, f.name, None)
+
+            if isinstance(f, ForeignKey):
+                value = str(value) if value is not None else None
+
+            data[f.name] = value
+
+        return data
 
 
 def json_save(obj, filepath):

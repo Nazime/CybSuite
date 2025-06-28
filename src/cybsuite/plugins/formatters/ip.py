@@ -1,5 +1,4 @@
-from io import StringIO
-from typing import Any
+from typing import TextIO
 
 from cybsuite.cyberdb import BaseFormatter, Metadata
 
@@ -10,16 +9,11 @@ class IPFormat(BaseFormatter):
     name = "ip"
     metadata = Metadata(description="Format to list of IPs")
 
-    def format(self, queryset: Any) -> str:
-        if not queryset:
-            return ""
-
-        output = StringIO()
-        for obj in queryset:
-            try:
-                ip = obj.ip
-            except:
-                ip = obj.host.ip
-            output.write(ip)
-            output.write("\n")
-        return output.getvalue()
+    def format(self, data: list[dict], output: TextIO, fields: list[str]) -> None:
+        seen = set()
+        for row in data:
+            ip = row.get("ip") or row.get("host")
+            if ip and ip not in seen:
+                seen.add(ip)
+                output.write(ip)
+                output.write("\n")

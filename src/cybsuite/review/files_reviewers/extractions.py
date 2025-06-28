@@ -1,17 +1,12 @@
 import hashlib
 import json
-import os
-import shutil
 import zipfile
 from dataclasses import asdict, dataclass, field
-from enum import Enum, auto
 from pathlib import Path
 from typing import Optional
 
 from cybsuite.consts import (
     FILE_NAME_DATA,
-    FOLDER_NAME_EXTRACTS,
-    FOLDER_NAME_LOGS,
     FOLDER_NAME_REPORTS,
     FOLDER_NAME_REVIEW,
     FOLDER_NAME_UNARCHIVED,

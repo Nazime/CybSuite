@@ -1,4 +1,3 @@
-import pytest
 from cybsuite.cyberdb import CyberDB
 
 from .utils import get_data_path
