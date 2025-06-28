@@ -1,7 +1,6 @@
 import re
 from datetime import datetime, timezone
 
-import dateutil.parser
 from cybsuite.review.windows import Metadata, WindowsReviewer
 
 

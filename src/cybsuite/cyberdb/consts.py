@@ -13,3 +13,14 @@ SSMODELS_APP_LABEL = "cybsmodels"
 
 # Template paths
 PATH_TEMPLATES = PATH_DATA / "templates"
+
+__all__ = [
+    "PATH_DATA",
+    "PATH_DB_SCHEMA",
+    "PATH_KNOWLEDGEBASE",
+    "SSMODELS_MODULE_NAME",
+    "SSMODELS_APP_LABEL",
+    "PATH_TEMPLATES",
+    "PATH_CONF_FILE",
+    "PATH_CYBSUITE",
+]

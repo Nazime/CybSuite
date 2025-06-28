@@ -36,8 +36,6 @@ def _run(args):
             logger.info(f"Already in workspace '{args.name}'")
             return
 
-        current_workspace_path = get_workspace_path(current_workspace)
-
         # Switch to the new workspace
         set_current_workspace(args.name)
         new_workspace_path = get_workspace_path(args.name)

@@ -1,5 +1,5 @@
 def test_import_is_not_break():
-    from cybsuite.cli.cyberdb import main_cli
+    from cybsuite.cli.cyberdb import main_cli  # noqa: F401
 
 
 def test_cli_list_command(capsys):

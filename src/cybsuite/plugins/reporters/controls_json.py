@@ -1,9 +1,7 @@
 import json
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Optional
 
-from cybsuite.cyberdb import CyberDB
 from cybsuite.cyberdb.bases import BaseReporter
 from koalak.plugin_manager import Metadata
 
@@ -108,8 +106,8 @@ class ControlsJsonReporter(BaseReporter):
 
     def configure(self, latest_run=None):
         self.latest_run = latest_run
-        self.ControlTemplate = self.cyberdb._django_objects["control_definition"]
-        self.Controls = self.cyberdb._django_objects["control"]
+        self.ControlTemplate = self.cyberdb.django_objects["control_definition"]
+        self.Controls = self.cyberdb.django_objects["control"]
 
     def _get_max_severity_and_confidence(
         self, occurrences: list[ControlOccurrence]

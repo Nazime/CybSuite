@@ -1,28 +1,21 @@
 import csv
-from io import StringIO
-from typing import Any
+from typing import TextIO
 
 from cybsuite.cyberdb import BaseFormatter, Metadata
 
 
 class CSVFormat(BaseFormatter):
-    """Format queryset as CSV string"""
+    """Format queryset as CSV and write directly to output"""
 
     name = "csv"
     metadata = Metadata(description="Format to CSV")
 
-    def format(self, queryset: Any) -> str:
-        if not queryset:
-            return ""
-
-        output = StringIO()
+    def format(self, data: list[dict], output: TextIO, fields: list[str]) -> None:
         writer = csv.writer(output)
 
         # Write headers
-        writer.writerow([f.name for f in queryset.model._meta.fields])
+        writer.writerow(fields)
 
-        # Write data
-        for obj in queryset:
-            writer.writerow([getattr(obj, f.name) for f in queryset.model._meta.fields])
-
-        return output.getvalue()
+        # Write data rows directly
+        for obj in data:  # Use iterator() for memory efficiency
+            writer.writerow([obj[f] for f in fields])

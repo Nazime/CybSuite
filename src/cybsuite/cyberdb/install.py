@@ -13,4 +13,4 @@ def install():
     init_folder()
 
     # This line will create the config file
-    from .config import cyberdb_config
+    from .config import cyberdb_config  # noqa: F401

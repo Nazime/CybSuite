@@ -1,6 +1,5 @@
 import importlib.util
 import inspect
-from dataclasses import dataclass
 from functools import lru_cache
 from importlib import import_module
 from importlib.metadata import entry_points
@@ -33,6 +32,7 @@ class CybSuiteExtension:
         cyberdb_knowledgebase: str = None,
         cyberdb_cli=None,
         extend_cli_review_function: str = None,
+        plugins_module: str = None,
     ):
 
         self.name = name
@@ -41,6 +41,7 @@ class CybSuiteExtension:
         self.cyberdb_knowledgebase = cyberdb_knowledgebase
         self.extend_cli_review_function = extend_cli_review_function
         self.cyberdb_cli = cyberdb_cli
+        self.plugins_module = plugins_module
 
     @property
     def cyberdb_django_app_label(self):
@@ -73,6 +74,13 @@ class CybSuiteExtension:
                 )
             extensions.append(extension_config)
         return extensions
+
+    @classmethod
+    def load_plugins(cls):
+        for extension in cls.load_extensions():
+            if extension.plugins_module is None:
+                continue
+            import_module(extension.plugins_module)
 
     @classmethod
     def _validate_cli_function(cls, func, name):

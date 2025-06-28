@@ -1,5 +1,4 @@
-from io import StringIO
-from typing import Any
+from typing import TextIO
 
 from cybsuite.cyberdb import BaseFormatter, Metadata
 
@@ -10,13 +9,8 @@ class IPPortTCPFormatter(BaseFormatter):
     name = "ipport"
     metadata = Metadata(description="Format to ip:port on TCP protocol")
 
-    def format(self, queryset: Any) -> str:
-        if not queryset:
-            return ""
-
-        output = StringIO()
-        for obj in queryset:
-
-            output.write(f"{obj.host.ip}:{obj.port}\n")
-
-        return output.getvalue()
+    def format(self, data: list[dict], output: TextIO, fields: list[str]) -> None:
+        for row in data:
+            host = row.get("host", {})
+            if host and "ip" in host and "port" in row:
+                output.write(f"{host['ip']}:{row['port']}\n")

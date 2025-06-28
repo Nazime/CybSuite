@@ -2,13 +2,13 @@ import datetime
 import typing
 
 import django.utils.timezone
-from django.core.exceptions import FieldDoesNotExist, ValidationError
+from django.core.exceptions import ValidationError
 from django.db import models
 from koalak.descriptions import EntityDescription, SchemaDescription
 
 _map_type_to_django_model = {
     str: models.TextField,
-    int: models.IntegerField,
+    int: models.BigIntegerField,
     float: models.FloatField,
     bool: models.BooleanField,
     dict: models.JSONField,  # Store dictionary-like data in JSON format
@@ -77,7 +77,9 @@ def schema_description_to_models(
                 model_args.append(
                     f"{django_app_label}.{field_description.atomic_type.name.title()}"
                 )
-                model_kwargs["on_delete"] = models.CASCADE
+                model_kwargs["on_delete"] = (
+                    models.SET_NULL if field_description.nullable else models.CASCADE
+                )
                 model_kwargs["related_name"] = field_description.related_name
             elif field_description.is_many_to_many_field():
                 django_field_cls = models.ManyToManyField

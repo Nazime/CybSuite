@@ -7,7 +7,7 @@ fields:
     indexed: true
     description: "Username"
   host:
-    type: str
+    type: host
     in_filter_query: true
     indexed: true
     default: null
@@ -44,6 +44,10 @@ fields:
     type: str
     default: str
     description: "Password expiration time"
+  password:
+    type: str
+    default: null
+    description: "Password"
   lm:
     type: str
     default: null

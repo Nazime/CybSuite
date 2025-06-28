@@ -32,7 +32,7 @@ psycopg2-binary = ">=2.9.10,<3.0.0"
 uvicorn = "^0.34.2"
 fastapi = "^0.115.12"
 python-multipart = "^0.0.20"
-
+# TODO: add ollama
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -47,6 +47,8 @@ cybs-db="cybsuite.cli.cyberdb.__main__:main"
 cybsuite-db="cybsuite.cli.cyberdb.__main__:main"
 cybs-workspace="cybsuite.cli.workspace.__main__:main"
 cybsuite-workspace="cybsuite.cli.workspace.__main__:main"
+cybs-run="cybsuite.cli.run.__main__:main"
+cybsuite-run="cybsuite.cli.run.__main__:main"
 
 # IMPORT LINTER CONFIGURATION #
 # =========================== #

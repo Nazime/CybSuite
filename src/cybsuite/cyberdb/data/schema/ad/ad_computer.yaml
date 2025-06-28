@@ -1,0 +1,62 @@
+tags:
+  - active_directory
+  - windows_review
+fields:
+  name:
+    type: str
+    in_filter_query: true
+    indexed: true
+    repr: true
+  domain:
+    type: ad_domain
+    in_filter_query: true
+    indexed: true
+    repr: true
+  sid:
+    type: str
+    indexed: true
+    default: null
+  os:
+    description: Operating System
+    type: str
+    default: null
+  enabled:
+    type: bool
+    default: null
+  pwd_last_set:
+    type: int
+    default: null
+    hidden_in_list: true
+  distinguished_name:
+    type: str
+    default: null
+    hidden_in_list: true
+  sam_account_name:
+    type: str
+    default: null
+  when_created:
+    type: int
+    default: null
+    hidden_in_list: true
+  last_logon:
+    type: int
+    default: null
+    hidden_in_list: true
+  last_logon_timestamp:
+    type: int
+    default: null
+    hidden_in_list: true
+  description:
+    description: Description of the computer
+    type: str
+    default: null
+  primary_group_sid:
+    type: str
+    default: null
+    hidden_in_list: true
+  dns_hostname:
+    type: str
+    default: null
+  os_version:
+    type: str
+    default: null

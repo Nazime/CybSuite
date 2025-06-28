@@ -1,28 +1,31 @@
-from typing import TYPE_CHECKING, Any
+from typing import TextIO
 
 from cybsuite.consts import PATH_CYBSUITE
 from koalak.plugin_manager import Plugin, PluginManager, abstract
-
-if TYPE_CHECKING:
-    from cybsuite.cyberdb import CyberDB
-
 
 # FIXME: redo path once koalak.framework are ended
 pm_home_path = PATH_CYBSUITE / "formats"
 
 
+# TODO: forein key are not useful anymore
+
+
 class BaseFormatter(Plugin):
-    """Base class for format plugins that convert Django querysets to strings."""
+    """Base class for format plugins that write Django querysets to file-like objects."""
+
+    include_hidden_fields = True  # When True show include hidden fields
 
     @abstract
-    def format(self, queryset: Any) -> str:
-        """Convert queryset to formatted string.
+    def format(self, data: list[dict], output: TextIO, fields: list[str]) -> None:
+        """Write queryset to a file-like object in the specified format.
 
         Args:
-            queryset: Django queryset to format
+            data: Data to format
+            output: A file-like object supporting write operations
+            fields: List of field names to include in the output
 
         Returns:
-            Formatted string representation
+            None
         """
         pass
 

@@ -1,7 +1,7 @@
 """Command to delete a workspace."""
 
 from cybsuite.core.logger import get_logger
-from cybsuite.workspace.workspaces import delete_workspace, get_current_workspace_name
+from cybsuite.workspace.workspaces import delete_workspace
 from koalak.subcommand_parser import SubcommandParser
 
 logger = get_logger()

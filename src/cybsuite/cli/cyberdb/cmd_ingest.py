@@ -1,7 +1,5 @@
 import argparse
-import sys
 
-import koalak
 from cybsuite.cyberdb import CyberDB, pm_ingestors
 from koalak.subcommand_parser import SubcommandParser
 

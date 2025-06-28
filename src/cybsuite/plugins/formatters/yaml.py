@@ -1,27 +1,14 @@
-from typing import Any
+from typing import TextIO
 
 import yaml
 from cybsuite.cyberdb import BaseFormatter, Metadata
 
-from .utils import serialize_value
-
 
 class YAMLFormat(BaseFormatter):
-    """Format queryset as YAML string."""
+    """Format queryset as YAML."""
 
     name = "yaml"
     metadata = Metadata(description="Format to YAML")
 
-    def format(self, queryset: Any) -> str:
-        if not queryset:
-            return "[]"
-
-        data = []
-        for obj in queryset:
-            item = {}
-            for field in queryset.model._meta.fields:
-                value = getattr(obj, field.name)
-                item[field.name] = serialize_value(value)
-            data.append(item)
-
-        return yaml.dump(data, sort_keys=False, allow_unicode=True)
+    def format(self, data: list[dict], output: TextIO, fields: list[str]) -> None:
+        yaml.dump(data, output)

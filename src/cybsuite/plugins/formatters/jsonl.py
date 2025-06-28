@@ -1,31 +1,16 @@
 import json
-from typing import Any
+from typing import TextIO
 
 from cybsuite.cyberdb import BaseFormatter, Metadata
 
-from .utils import serialize_value
 
-
-class JSONLFormat(BaseFormatter):
-    """Format queryset as JSONL (JSON Lines) string.
-    Each record is written as a single line of JSON without pretty printing.
-    """
+class JSONLinesFormat(BaseFormatter):
+    """Format queryset as JSON Lines (one JSON object per line)."""
 
     name = "jsonl"
-    metadata = Metadata(description="Format to JSONL (JSON Lines)")
+    metadata = Metadata(description="Format to JSON Lines (one JSON object per line)")
 
-    def format(self, queryset: Any) -> str:
-        if not queryset:
-            return ""
-
-        output = []
-        for obj in queryset:
-            item = {}
-            for field in queryset.model._meta.fields:
-                value = getattr(obj, field.name)
-                item[field.name] = serialize_value(value)
-            # Dump each object as a single line without indentation
-            output.append(json.dumps(item, separators=(",", ":")))
-
-        # Join all lines with newlines
-        return "\n".join(output)
+    def format(self, data: list[dict], output: TextIO, fields: list[str]) -> None:
+        for item in data:
+            json.dump(item, output, separators=(",", ":"))
+            output.write("\n")

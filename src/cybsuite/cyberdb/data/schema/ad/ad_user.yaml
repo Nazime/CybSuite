@@ -1,0 +1,71 @@
+tags:
+  - active_directory
+  - windows_review
+fields:
+  name:
+    type: str
+    in_filter_query: true
+    indexed: true
+    repr: true
+  domain:
+    type: ad_domain
+    in_filter_query: true
+    indexed: true
+    repr: true
+  password:
+    type: str
+    default: null
+  lm:
+    type: str
+    default: null
+  ntlm:
+    type: str
+    default: null
+  sid:
+    type: str
+    indexed: true
+    default: null
+    hidden_in_list: true
+  full_name:
+    type: str
+    default: null
+  description:
+    description: Description of the AD object
+    type: str
+    default: null
+  enabled:
+    type: bool
+    default: null
+  pwd_last_set:
+    type: int
+    default: null
+    hidden_in_list: true
+  email:
+    type: str
+    default: null
+  distinguished_name:
+    type: str
+    default: null
+    hidden_in_list: true
+  sam_account_name:
+    type: str
+    default: null
+  when_created:
+    type: int
+    default: null
+    hidden_in_list: true
+  last_logon:
+    type: int
+    default: null
+    hidden_in_list: true
+  last_logon_timestamp:
+    type: int
+    default: null
+    hidden_in_list: true
+  admin_count:
+    type: bool
+    default: null
+  pwd_never_expires:
+    type: bool
+    default: null
+    hidden_in_list: true

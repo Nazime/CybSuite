@@ -31,7 +31,7 @@ def install():
     PATH_CYBSUITE.mkdir(parents=True, exist_ok=True)
 
     # Create config file
-    from .config import root_config
+    from .config import root_config  # noqa: F401
 
     logger.info(f"Creating main config file '{CONF_FILE_NAME}'")
 

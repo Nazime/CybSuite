@@ -1,0 +1,21 @@
+description: Active Directory domains
+tags:
+  - active_directory
+  - windows_review
+fields:
+  name:
+    description: name of the domain
+    type: str
+    in_filter_query: true
+    indexed: true
+    repr: true
+    examples: ['target.local']
+  sid:
+    description: Domain Security Identifier
+    type: str
+    default: null
+    hidden_in_list: true
+  description:
+    description: Description of the domain
+    type: str
+    default: null

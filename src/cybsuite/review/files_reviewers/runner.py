@@ -2,11 +2,9 @@ import json
 import os
 import subprocess
 import sys
-import time
-from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import List, Optional
 
 import dateutil.parser
 from cybsuite.consts import (
@@ -16,10 +14,9 @@ from cybsuite.consts import (
 )
 from cybsuite.core.logger import get_logger
 from cybsuite.cyberdb import CyberDB, CyberDBScanManager, pm_reporters
-from cybsuite.review.consts import FILENAME_INFO
 from cybsuite.workspace.workspaces import get_current_workspace_path
 
-from .base_reviewer import BaseReviewer, ReviewContext, pm_reviewers, pm_type_reviewers
+from .base_reviewer import ReviewContext, pm_reviewers, pm_type_reviewers
 from .extractions import ExtractionManager
 
 

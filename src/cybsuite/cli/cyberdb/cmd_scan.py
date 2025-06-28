@@ -1,6 +1,5 @@
 import argparse
 
-import koalak
 from cybsuite.cyberdb import CyberDB, pm_passive_scanners
 from koalak.subcommand_parser import SubcommandParser
 

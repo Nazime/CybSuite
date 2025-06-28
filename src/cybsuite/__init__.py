@@ -1,2 +1,2 @@
 # Make sure core is installed first
-from . import core as _core  # isort:skip
+from . import core as _core  # isort:skip  # noqa: F401

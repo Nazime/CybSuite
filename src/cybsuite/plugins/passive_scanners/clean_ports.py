@@ -4,7 +4,9 @@ from cybsuite.cyberdb import BasePassiveScanner, Metadata
 class CleanPortsScanner(BasePassiveScanner):
     name = "clean_ports"
     metadata = Metadata(
-        description="Delete ports 2000 and 5060 which are commonly false positives, and remove hosts that only have these ports"
+        description="Delete ports 2000 and 5060 which are commonly false positives, and remove hosts that only have these ports",
+        tags=["default"],
+        order=30,
     )
 
     def do_run(self):

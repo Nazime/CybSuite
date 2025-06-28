@@ -1,8 +1,6 @@
 """Main CLI setup for workspace management."""
 
-import logging
 
-from cybsuite.core.logger import get_logger
 from koalak.subcommand_parser import SubcommandParser
 
 from .cmd_create import add_cmd_create
