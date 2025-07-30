@@ -1,4 +1,7 @@
 # CybSuite
+> ⚠️ **This project has moved!**  
+> The new repository is here: [https://github.com/CybSuite/CybSuite](https://github.com/CybSuite/CybSuite)  
+
 
 This project is currently in Alpha stage and under active development. While core functionality is implemented and tested, the API and features may change significantly between versions.
 
